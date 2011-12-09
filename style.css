@@ -1,0 +1,229 @@
+/**********************************
+RESETS
+**********************************/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; background: transparent;
+}
+body {line-height: 1;
+}
+ol, ul { list-style: none;
+}
+blockquote, q { quotes: none;
+}
+
+/ remember to define focus styles! /
+:focus { outline: 0;
+}
+
+/ remember to highlight inserts somehow! /
+ins { text-decoration: none;
+}
+del { text-decoration: line-through;
+}
+
+/ tables still need ‘cellspacing=”0”’ in the markup /
+table { border-collapse: collapse; border-spacing: 0;
+}
+
+
+body {
+	background: #F2F2F2;
+	font-family: Arial;
+	font-size: 13px;
+	line-height: 1.6;
+	color: #444;
+}
+
+#content {
+	height: 2000px;
+	width: 85%;
+	margin: 30px auto;
+	padding: 20px 60px;
+	border: 1px solid #D2D2D2;
+	-moz-box-shadow: 0 0 30px #CCC;
+	-webkit-box-shadow: 0 0 30px #CCC;
+	box-shadow: 0 0 30px #CCC;
+	background: #FFF;
+	background: -webkit-gradient(linear, left top, left 15, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
+	background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 15px);
+}
+div#mens{
+	
+	float:left;
+}
+div#womens{
+	
+	float:left;
+}
+h1 {
+	margin: 0;
+	font-size: 30px;
+	font-weight: normal;
+	font-family: "Museo 700", Arial;
+}
+
+h1 em {
+	font-size: 50%;
+	letter-spacing: -0.05em;
+}
+
+h2 {
+font:bold 12px "Helvetica",Arial,sans-serif;
+margin-top:15px;
+text-transform:uppercase;}
+h2.cart{
+	font:bold 16px "Helvetica",Arial,sans-serif;
+
+	}
+
+hr {
+	border: none;
+	height: 1px; line-height: 1px;
+	background: #D8D8D8;
+	margin-bottom: 20px;
+	padding: 0;
+}
+
+p {
+	margin: 0;
+	padding-bottom: 5px;
+}
+
+a {
+	text-decoration: none;
+	text-transform: none;
+	outline: none;	
+}
+
+img.item_thumb {
+	position: relative;
+	margin-left: auto;
+	margin-bottom: 10px;
+	margin-right: auto;
+	margin-top: 10px;
+	border: 5px solid #BBB;
+	padding: 2px;
+	vertical-align: top;
+}
+
+
+
+ 	.itemContainer{
+ 		border-style: solid;
+		border-color: #c4c6c2;
+		border-width: 5px;
+ 		height: 225px;
+		float:left;
+		margin: 15px;
+		padding: 15px;
+		text-align: center;
+	}
+	}
+	.itemContainer div{
+		float:left;
+		margin: 5px 20px 5px 20px ;
+	}
+	
+	.itemContainer a{
+		text-decoration:none;
+	}
+	input.item_quantity{
+border:1px solid;
+color:#000;
+font:bold 14px Arial,sans-serif;
+height:17px;
+margin:0 5px 0 0;
+padding:3px 9px 0;
+text-align:center;
+vertical-align:top;
+width:21px;
+}
+	.cartHeaders{
+		width:100%;
+		float:left;
+	}
+	
+	.cartHeaders div{
+		float:left;
+		margin: 5px 20px 5px 20px ;
+	}
+	.simpleCart_shelfItem  {
+		line-height:100%;
+		margin:10px;
+		position:relative;
+}
+	.simpleCart_items{
+	padding: 10px;
+	width: 100%;
+	}
+	.itemThumb{
+		border-style: none;
+		border-width: 0px;
+		text-transform: none;
+		width: 100px;
+	}
+	.item_image{
+	float:left;
+margin-right:15px;
+	}
+	
+	.item_name  {
+font:bold 12px "Helvetica",Arial,sans-serif;
+margin-top:15px;
+text-transform:uppercase;
+width:135px;
+	}
+	
+	.item_Description  {
+font-size:11px;
+padding:5px 0;
+}
+	item_price  {
+float:left;
+font:bold 12px "Helvetica",Arial,sans-serif;
+margin:6px 3px 0 0;
+}
+	#Athletic  {
+		padding: 10px;
+	position: relative;
+
+}
+	#peclothes  {
+	padding: 10px;
+	position: relative;
+
+}
+.item_add  {
+height:25px;
+overflow:hidden;
+width:85px}
+#PPMiniCart ul{
+	height:100%;
+}
+
+
+#cart  {
+          	min-height: 300px;
+          }
+#logo{
+	}
+p.important{
+	font-size: 1.6em;
+	}
+.tiny{
+		margin: 0px;
+		border:#ccc solid 1px;
+	}
+.sizing_chart{
+	}
+a:-webkit-any-link{
+		text-decoration: none;
+		text-transform: none;
+	}
