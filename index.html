@@ -4,8 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Pet Sense Order Form</title>			
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-<script type="text/javascript" src="fancybox/jquery.fancybox-1.3.1.pack.js"></script>	
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="fancybox/jquery.fancybox-1.3.1.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+
 <script type="text/javascript">
 		$(document).ready(function() {
 	/* Apply fancybox to multiple items */
@@ -37,13 +39,11 @@
 			<p>Questions? Call Marc at Triton Associates: (909) 608-7740 </p>
 		</div>
 	
-	<div id="peclothes" >
 		<h1>Pet Sense Employee Shirt Order Form</h1>
-				
 			<div id="mens">
 				<h2 class="item_name">Men's Polo Shirt</h2>
-					<a rel="example_group" href="images/shirts/mens-blue.jpg" class="image">
-						<img class="item_thumb"src="images/shirts/mens-blue-thumb.jpg" />
+					<a rel="example_group" href="images/shirts/navy-mens-polo.jpg" class="image">
+						<img style="width:100px;height:auto;"class="item_thumb"src="images/shirts/navy-mens-polo-thumb.png" />
 					</a><br/>
 			<span style="width:50px;">
 				<a rel="example_group" href="images/shirts/steel-mens-polo.jpg" title="Steel" class="image"><img class="tiny" width="40px" src="images/shirts/steel-mens-polo.jpg"></a>
@@ -84,7 +84,7 @@
 			<tr>
 				<td>
 					<select name="os0">
-						<option value="X-small">X-Small $18.99</option>
+						<option value="X-Small">X-Small $18.99</option>
 						<option value="Small">Small $18.99</option>
 						<option value="Medium">Medium $18.99</option>
 						<option value="Large">Large $18.99</option>
@@ -101,7 +101,151 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="hidden" name="on3" value="Color">Color:
+					<input type="hidden" name="os6" value="Color">Color:
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<select name="os3"class="item_Color">
+					<option value="Navy">Navy</option>
+					<option value="Steel">Steel</option>
+					<option value="Burgandy">Burgandy</option>
+					<option value="Olive">Olive</option>
+					</select>
+				</td>
+			</tr>			
+			<tr>
+				<td>
+					<input type="hidden" name="on1" value="Ship To">Ship To
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<select name="os1">
+					<option>Petsense 101 - Castle Rock</option><option>Petsense 102 - Westbrook</option><option>Petsense 104 - Tulare</option><option>Petsense 106 - Commerce</option><option>Petsense 107 - Locust Grove</option><option>Petsense 108 - Foley</option><option>Petsense 109 - Myrtle Beach</option><option>Petsense 110 - Edinburgh</option><option>Petsense 111 - Round Rock</option><option>Petsense 202 - Nacogdoches</option><option>Petsense 203 - Alamogordo</option><option>Petsense 204 - Sulphur Springs</option><option>Petsense 205 - Mineral Wells</option><option>Petsense 206 - Greenville</option><option>Petsense 207 - Hobbs</option><option>Petsense 208 - Clovis</option><option>Petsense 209 - McAlester</option><option>Petsense 210 - Enid</option><option>Petsense 211 - Palestine</option><option>Petsense 212 - Lawton</option><option>Petsense 214 - Ada</option><option>Petsense 215 - Searcy</option><option>Petsense 216 - Russellville</option><option>Petsense 217 - Tahlequah</option><option>Petsense 218 - Batesville</option><option>Petsense 219 - Espanola</option><option>Petsense 301 - Albemarle</option><option>Petsense 302 - Mount Airy</option><option>Petsense 303 - New Bern</option><option>Petsense 304 - Orangeburg</option><option>Petsense 305 - Corinth</option><option>Petsense 306 - Union City</option><option>Petsense 308 - Kinston NC</option><option>Petsense 309 - Dayton</option><option>Petsense 310 - Sanford, NC</option><option>Petsense 311 - Lenoir, NC</option><option>Petsense 312 - Elizabeth City</option><option>Petsense 313 - Rome GA</option><option>Petsense 314 - Thomaston, GA</option><option>Petsense 315 - Laurel, MS</option><option>Petsense 316 - Reidsville</option><option>Petsense 317 - Tullahoma</option><option>Petsense 319 - Shallotte</option><option>Petsense 321 - Albany</option><option>Petsense 322 - Vicksburg</option><option>Petsense 323-Griffin</option><option>Petsense 324-Dublin</option><option>Petsense 401-Martinsville</option><option>Petsense 501 - Marion</option><option>Petsense 502 - Jasper</option><option>Petsense 503 - Logansport</option><option>Petsense 504 - Seymour</option><option>Petsense 801- Chehalis</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="hidden" name="add" value="Quantity">Quantity
+					<input type="hidden" name="add" value="1"> 
+						<select name="quantity">
+							<option value="1" selected>1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+					</select>
+				<br/>
+					<input type="hidden" name="on2" value="Attention To:">Attention To:
+				</td>
+		</tr>
+		<br/>
+			<tr>
+				<td>
+				<input type="text" name="os2" maxlength="60">
+				</td>
+			</tr>
+
+
+		</table>
+				<input type="hidden" name="currency_code" value="USD">
+				<input type="hidden" name="handling_cart" value="3.00">
+				<input type="hidden" name="option_select0" value="X-Small">
+				<input type="hidden" name="option_amount0" value="18.99">
+				<input type="hidden" name="option_select1" value="Small">
+				<input type="hidden" name="option_amount1" value="18.99">
+				<input type="hidden" name="option_select2" value="Medium">
+				<input type="hidden" name="option_amount2" value="18.99">
+				<input type="hidden" name="option_select3" value="Large">
+				<input type="hidden" name="option_amount3" value="18.99">
+				<input type="hidden" name="option_select4" value="X-Large">
+				<input type="hidden" name="option_amount4" value="18.99">
+				<input type="hidden" name="option_select5" value="2X-LARGE">
+				<input type="hidden" name="option_amount5" value="20.25">
+				<input type="hidden" name="option_select6" value="3X-LARGE">
+				<input type="hidden" name="option_amount6" value="22.75">
+				<input type="hidden" name="option_select7" value="4X-LARGE">
+				<input type="hidden" name="option_amount7" value="24.00">
+				<input type="hidden" name="option_select8" value="5X-LARGE">
+				<input type="hidden" name="option_amount8" value="25.75">
+				<input type="hidden" name="option_select9" value="6X-LARGE">
+				<input type="hidden" name="option_amount9" value="27.50">				
+				<input type="hidden" name="option_index" value="0">
+				<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+			</form>
+		</div>
+				
+			<div id="mens">
+				<h2 class="item_name">Men's Sport-Wick Shirt</h2>
+					<span></span>
+					<a rel="example_group" title="Men's Sport-Wick Shirt" href="images/shirts/mens-blue-650.jpg" class="image">
+						<img class="item_thumb"src="images/shirts/mens-blue-thumb-650.jpg" />
+					</a><br/>
+			<span style="width:50px;">
+				<a rel="example_group" href="images/shirts/steel-mens-polo.jpg" title="Steel" class="image"><img class="tiny" width="40px" src="images/shirts/steel-mens-polo.jpg"></a>
+				<a rel="example_group" href="images/shirts/burgundy-mens-polo.jpg" title="Burgandy" class="image"><img class="tiny" width="40px"  src="images/shirts/burgundy-mens-polo.jpg"/></a>
+				<a rel="example_group" href="images/shirts/olive-mens-polo.jpg" title="Olive" class="image"><img class="tiny" width="40px"  src="images/shirts/olive-mens-polo.jpg"/></a>
+			</span>
+					<br/>
+					<p>Click for a larger image</p>
+					<span class="sizing_chart">
+						<a href="images/shirts/msizingchart-650.jpg" class="image">Sizing Chart</a>
+					</span>
+					<br/>
+
+		<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+		<input type="hidden" name="cmd" value="_cart">
+		<input type="hidden" name="business" value="marc@tritonassociates.com">
+		<input type="hidden" name="lc" value="US">
+		<input type="hidden" name="item_name" value="Men's Sport-Wick Shirt">
+		<input type="hidden" name="undefined_quantity" value="1">
+		<input type="hidden" name="button_subtype" value="products">
+        <input type="hidden" name="no_shipping" value="1">
+        <input type="hidden" name="shipping2" value="0">
+        <input type="hidden" name="shipping" value="0">
+        <input type="hidden" name="handling" value="3.00">
+        <input type="hidden" name="no_note" value="0">
+		<input type="hidden" name="cn" value="Add special instructions to the seller">
+		<input type="hidden" name="currency_code" value="USD">
+		<input type="hidden" name="add" value="1">
+		<input type="hidden" name="bn" value="PP-ShopCartBF:btn_cart_SM.gif:NonHosted">
+		<table>
+
+			<tr>
+				<td>
+					<input type="hidden" name="on0" value="Size">Size:
+				</td>
+			</tr>
+		
+			<tr>
+				<td>
+					<select name="os0">
+						<option value="X-Small">X-Small $18.99</option>
+						<option value="Small">Small $18.99</option>
+						<option value="Medium">Medium $18.99</option>
+						<option value="Large">Large $18.99</option>
+						<option value="X-Large">X-Large $18.99</option>
+						<option value="2X-LARGE">2X-LARGE $20.25</option>
+						<option value="3X-LARGE">3X-LARGE $22.75</option>
+						<option value="4X-LARGE">4X-LARGE $24.00</option>
+						<option value="5X-LARGE">5X-LARGE $25.75</option>
+						<option value="6X-LARGE">6X-LARGE $27.50</option>
+
+
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="hidden" name="os6" value="Color">Color:
 				</td>
 			</tr>
 			<tr>
@@ -222,7 +366,7 @@
 			<tr>
 				<td>
 					<select name="os0">
-						<option value="X-small">X-Small $18.99</option>
+						<option value="X-Small">X-Small $18.99</option>
 						<option value="Small">Small $18.99</option>
 						<option value="Medium">Medium $18.99</option>
 						<option value="Large">Large $18.99</option>
@@ -237,7 +381,7 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="hidden" name="on3" value="Color">Color:
+					<input type="hidden" name="os6" value="Color">Color:
 				</td>
 			</tr>
 			<tr>
@@ -359,7 +503,7 @@
 			<tr>
 				<td>
 					<select name="os0">
-						<option value="X-small">X-Small $18.99</option>
+						<option value="X-Small">X-Small $18.99</option>
 						<option value="Small">Small $18.99</option>
 						<option value="Medium">Medium $18.99</option>
 						<option value="Large">Large $18.99</option>
@@ -374,7 +518,7 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="hidden" name="on3" value="Color">Color:
+					<input type="hidden" name="os6" value="Color">Color:
 				</td>
 			</tr>
 			<tr>
@@ -456,8 +600,8 @@
 <div style="clear:both;"></div>
 			<div id="womens">
 				<h2 class="item_name">Women's Polo Shirt</h2>
-					<a href="images/shirts/womens-blue.jpg" class="image">
-						<img class="item_thumb"src="images/shirts/womens-blue-thumb.jpg" />
+					<a href="images/shirts/navy-womens-polo.jpg" class="image">
+						<img style="width:100px;height:auto;"class="item_thumb"src="images/shirts/navy-womens-650-thumb.png" />
 					</a>
 					<br/>
 								<span style="width:50px;">
@@ -472,7 +616,7 @@
 					</span>
 					<br/>
 
-		<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_cart"><input type="hidden" name="handling_cart" value='3.00'><input type="hidden" name="business" value="marc@tritonassociates.com"><input type="hidden" name="lc" value="US"><input type="hidden" name="item_name" value="Womens Polo Shirt"><input type="hidden" name="undefined_ quantity" value="1"><input type="hidden" name="button_subtype" value="products"><input type="hidden" name="no_note" value="0"><input type="hidden" name="cn" value="Add special instructions to the seller"><input type="hidden" name="currency_code" value="USD"><input type="hidden" name="add" value="1"><input type="hidden" name="bn" value="PP-ShopCartBF:btn_cart_SM.gif:NonHosted">
+		<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_cart"><input type="hidden" name="handling_cart" value='3.00'><input type="hidden" name="business" value="marc@tritonassociates.com"><input type="hidden" name="lc" value="US"><input type="hidden" name="item_name" value="Womens Sport-wick Shirt"><input type="hidden" name="undefined_ quantity" value="1"><input type="hidden" name="button_subtype" value="products"><input type="hidden" name="no_note" value="0"><input type="hidden" name="cn" value="Add special instructions to the seller"><input type="hidden" name="currency_code" value="USD"><input type="hidden" name="add" value="1"><input type="hidden" name="bn" value="PP-ShopCartBF:btn_cart_SM.gif:NonHosted">
 		<table>
 			<tr>
 				<td>
@@ -482,7 +626,7 @@
 			<tr>
 				<td>
 					<select name="os0">
-						<option value="X-small">X-Small $18.99</option>
+						<option value="X-Small">X-Small $18.99</option>
 						<option value="Small">Small $18.99</option>
 						<option value="Medium">Medium $18.99</option>
 						<option value="Large">Large $18.99</option>
@@ -495,7 +639,7 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="hidden" name="on3" value="Color">Color:
+					<input type="hidden" name="os6" value="Color">Color:
 				</td>
 			</tr>
 
@@ -505,7 +649,7 @@
 					<option value="Navy">Navy</option>
 					<option value="Pistachio">Pistachio</option>
 					<option value="Pink">Pink</option>
-					<option value="burgundy">burgundy</option>
+					<option value="burgundy">Burgundy</option>
 					</select><br/>
 				</td>
 			</tr>			
@@ -572,6 +716,125 @@
 				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 			</form>
 		</div>
+			<div id="womens">
+				<h2 class="item_name">Women's Sport-wick Shirt</h2>
+					<a href="images/shirts/womens-blue.jpg" class="image">
+						<img class="item_thumb"src="images/shirts/womens-blue-thumb.jpg" />
+					</a>
+					<br/>
+								<span style="width:50px;">
+				<a rel="example_group" href="images/shirts/pistachio-womens-polo.jpg" title="Pistachio" class="image"><img class="tiny" width="40px" src="images/shirts/pistachio-womens-polo.jpg"></a>
+				<a rel="example_group" href="images/shirts/pink-womens-polo.jpg" title="Pink" class="image"><img class="tiny" width="40px"  src="images/shirts/pink-womens-polo.jpg"></a>
+				<a rel="example_group" href="images/shirts/burgundy-womens-polo.jpg" title="burgundy" class="image"><img class="tiny" width="40px"  src="images/shirts/burgundy-womens-polo.jpg"></a>
+			</span>
+
+					<p>Click for a larger image</p>
+					<span class="sizing_chart">
+						<a href="images/polowomens.png" class="image">Sizing Chart</a>
+					</span>
+					<br/>
+
+		<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_cart"><input type="hidden" name="handling_cart" value='3.00'><input type="hidden" name="business" value="marc@tritonassociates.com"><input type="hidden" name="lc" value="US"><input type="hidden" name="item_name" value="Womens Polo Shirt"><input type="hidden" name="undefined_ quantity" value="1"><input type="hidden" name="button_subtype" value="products"><input type="hidden" name="no_note" value="0"><input type="hidden" name="cn" value="Add special instructions to the seller"><input type="hidden" name="currency_code" value="USD"><input type="hidden" name="add" value="1"><input type="hidden" name="bn" value="PP-ShopCartBF:btn_cart_SM.gif:NonHosted">
+		<table>
+			<tr>
+				<td>
+					<input type="hidden" name="on0" value="Size">Size:
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<select name="os0">
+						<option value="X-Small">X-Small $18.99</option>
+						<option value="Small">Small $18.99</option>
+						<option value="Medium">Medium $18.99</option>
+						<option value="Large">Large $18.99</option>
+						<option value="X-Large">X-Large $18.99</option>
+						<option value="2X-LARGE">2X-LARGE $20.25</option>
+						<option value="3X-LARGE">3X-LARGE $22.75</option>
+						<option value="4X-LARGE">4X-LARGE $24.00</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="hidden" name="os6" value="Color">Color:
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<select name="os3"class="item_Color">
+					<option value="Navy">Navy</option>
+					<option value="Pistachio">Pistachio</option>
+					<option value="Pink">Pink</option>
+					<option value="burgundy">Burgundy</option>
+					</select><br/>
+				</td>
+			</tr>			
+
+			<tr>
+				<td>
+					<input type="hidden" name="on1" value="Ship To">Ship To
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<select name="os1">
+					<option>Petsense 101 - Castle Rock</option><option>Petsense 102 - Westbrook</option><option>Petsense 104 - Tulare</option><option>Petsense 106 - Commerce</option><option>Petsense 107 - Locust Grove</option><option>Petsense 108 - Foley</option><option>Petsense 109 - Myrtle Beach</option><option>Petsense 110 - Edinburgh</option><option>Petsense 111 - Round Rock</option><option>Petsense 202 - Nacogdoches</option><option>Petsense 203 - Alamogordo</option><option>Petsense 204 - Sulphur Springs</option><option>Petsense 205 - Mineral Wells</option><option>Petsense 206 - Greenville</option><option>Petsense 207 - Hobbs</option><option>Petsense 208 - Clovis</option><option>Petsense 209 - McAlester</option><option>Petsense 210 - Enid</option><option>Petsense 211 - Palestine</option><option>Petsense 212 - Lawton</option><option>Petsense 214 - Ada</option><option>Petsense 215 - Searcy</option><option>Petsense 216 - Russellville</option><option>Petsense 217 - Tahlequah</option><option>Petsense 218 - Batesville</option><option>Petsense 219 - Espanola</option><option>Petsense 301 - Albemarle</option><option>Petsense 302 - Mount Airy</option><option>Petsense 303 - New Bern</option><option>Petsense 304 - Orangeburg</option><option>Petsense 305 - Corinth</option><option>Petsense 306 - Union City</option><option>Petsense 308 - Kinston NC</option><option>Petsense 309 - Dayton</option><option>Petsense 310 - Sanford, NC</option><option>Petsense 311 - Lenoir, NC</option><option>Petsense 312 - Elizabeth City</option><option>Petsense 313 - Rome GA</option><option>Petsense 314 - Thomaston, GA</option><option>Petsense 315 - Laurel, MS</option><option>Petsense 316 - Reidsville</option><option>Petsense 317 - Tullahoma</option><option>Petsense 319 - Shallotte</option><option>Petsense 321 - Albany</option><option>Petsense 322 - Vicksburg</option><option>Petsense 323-Griffin</option><option>Petsense 324-Dublin</option><option>Petsense 401-Martinsville</option><option>Petsense 501 - Marion</option><option>Petsense 502 - Jasper</option><option>Petsense 503 - Logansport</option><option>Petsense 504 - Seymour</option><option>Petsense 801- Chehalis</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="hidden" name="add" value="Quantity">Quantity
+					<input type="hidden" name="add" value="1"> 
+						<select name="quantity">
+							<option value="1" selected>1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+					</select>
+				<br/>
+					<input type="hidden" name="on2" value="Attention To:">Attention To:
+				</td>
+		</tr>
+		<br/>
+			<tr>
+				<td>
+				<input type="text" name="os2" maxlength="60">
+				</td>
+			</tr>
+		</table>
+				<input type="hidden" name="currency_code" value="USD">
+				<input type="hidden" name="handling_cart" value="3.00">
+				<input type="hidden" name="option_select0" value="X-Small">
+				<input type="hidden" name="option_amount0" value="18.99">
+				<input type="hidden" name="option_select1" value="Small">
+				<input type="hidden" name="option_amount1" value="18.99">
+				<input type="hidden" name="option_select2" value="Medium">
+				<input type="hidden" name="option_amount2" value="18.99">
+				<input type="hidden" name="option_select3" value="Large">
+				<input type="hidden" name="option_amount3" value="18.99">
+				<input type="hidden" name="option_select4" value="X-Large">
+				<input type="hidden" name="option_amount4" value="18.99">
+				<input type="hidden" name="option_select5" value="2X-LARGE">
+				<input type="hidden" name="option_amount5" value="20.25">
+				<input type="hidden" name="option_select6" value="3X-LARGE">
+				<input type="hidden" name="option_amount6" value="22.75">
+				<input type="hidden" name="option_select7" value="4X-LARGE">
+				<input type="hidden" name="option_amount7" value="24.00">
+				<input type="hidden" name="option_index" value="0">
+				<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_cart_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+			</form>
+		</div>
+
 		<div id="mens">
 				<h2 class="item_name">Women's Button Up Long Sleeve</h2>
 					<a href="images/shirts/navy-womens-button-up-long.jpg" class="image" title="Navy - Mens Button up Long Sleeve ">
@@ -612,7 +875,7 @@
 			<tr>
 				<td>
 					<select name="os0">
-						<option value="X-small">X-Small $18.99</option>
+						<option value="X-Small">X-Small $18.99</option>
 						<option value="Small">Small $18.99</option>
 						<option value="Medium">Medium $18.99</option>
 						<option value="Large">Large $18.99</option>
@@ -627,7 +890,7 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="hidden" name="on3" value="Color">Color:
+					<input type="hidden" name="os6" value="Color">Color:
 				</td>
 			</tr>
 
@@ -721,14 +984,14 @@
 			</span>
 					<p>Click for a larger image</p>
 					<span class="sizing_chart">
-						<a href="images/shirts/wsizingchart.jpg" class="image"/>Sizing Chart</a>
+						<a href="images/shirts/wsizingchart.jpg" class="image">Sizing Chart</a>
 					</span>
 					<br/>
 		<form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
 		<input type="hidden" name="cmd" value="_cart">
 		<input type="hidden" name="business" value="marc@tritonassociates.com">
 		<input type="hidden" name="lc" value="US">
-		<input type="hidden" name="item_name" value="Womens Button Up Short Sleeve>
+		<input type="hidden" name="item_name" value="Womens Button Up Short Sleeve">
 		<input type="hidden" name="undefined_quantity" value="1">
 		<input type="hidden" name="button_subtype" value="products">
         <input type="hidden" name="no_shipping" value="1">
@@ -748,7 +1011,7 @@
 			<tr>
 				<td>
 					<select name="os0">
-						<option value="X-small">X-Small $18.99</option>
+						<option value="X-Small">X-Small $18.99</option>
 						<option value="Small">Small $18.99</option>
 						<option value="Medium">Medium $18.99</option>
 						<option value="Large">Large $18.99</option>
@@ -763,7 +1026,7 @@
 			</tr>
 			<tr>
 				<td>
-					<input type="hidden" name="on3" value="Color">Color:
+					<input type="hidden" name="os6" value="Color">Color:
 				</td>
 			</tr>
 			<tr>
@@ -933,13 +1196,13 @@
 				<br/>
 					<input type="hidden" name="on2" value="Attention To:">Attention To:
 					<input type="text" name="os2" maxlength="60">
-					</br>
-				<input type="hidden" name="on3" value="Embroidery option name:">Embroidery option name:
+					<br/>
+				<input type="hidden" name="os6" value="Embroidery option name:">Embroidery option name:
 				<input type="text" name="os3" maxlength="60">
 				
-		</tr>
+			
 		</td>
-
+</tr>
 		<br/>
 	
 		
@@ -1051,8 +1314,8 @@
 				<br/>
 					<input type="hidden" name="on2" value="Attention To:">Attention To:
 					<input type="text" name="os2" maxlength="60">
-					</br>
-				<input type="hidden" name="on3" value="Embroidery option name:">Embroidery option name:
+					<br/>
+				<input type="hidden" name="os6" value="Embroidery option name:">Embroidery option name:
 				<input type="text" name="os3" maxlength="60">
 
 				</td>
@@ -1162,15 +1425,16 @@
 </div>
 <script type="text/javascript" src="minicart-min.js"></script>
 <script type="text/javascript"> 
-    PAYPAL.apps.MiniCart.render({
+$(document).ready(function() {
+ PAYPAL.apps.MiniCart.render({
         strings: {
             button: "Checkout",  
             subtotal: "Total ",
             shipping: "There is a $3 Handling fee for each order. Shipping is free, paid for by Petsense"
         }
     });
+});   
 </script>
-<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 
 </body>
 </html>

@@ -1,10 +1,1677 @@
-/*
+/*!
  * The PayPal Mini Cart 
- * Visit https://minicart.paypal-labs.com/ for details
+ * Visit http://www.minicartjs.com/ for details
  * Use subject to license agreement as set forth at the link below
  * 
  * @author Jeff Harrell
- * @version 2.0.4 
- * @license https://minicart.paypal-labs.com/LICENSE eBay Open Source License Agreement
+ * @license https://github.com/jeffharrell/MiniCart/blob/master/LICENSE eBay Open Source License Agreement
  */
-if(typeof PAYPAL=="undefined"||!PAYPAL){var PAYPAL={}}PAYPAL.apps=PAYPAL.apps||{};(function(){var a={parent:document.body,displayEdge:"right",edgeDistance:"50px",cookiePath:"/",strings:{button:"",subtotal:"",discount:"",shipping:""},name:"PPMiniCart",peekEnabled:true,paypalURL:"https://www.paypal.com/cgi-bin/webscr",assetURL:"https://minicart.paypal-labs.com/build/",events:{onRender:null,afterRender:null,onHide:null,afterHide:null,onShow:null,afterShow:null,onAddToCart:null,afterAddToCart:null,onRemoveFromCart:null,afterRemoveFromCart:null,onCheckout:null,onReset:null,afterReset:null}};PAYPAL.apps.MiniCart=(function(){var o=arguments.callee;o.products=[];o.UI={};o.isShowing=false;var m=function(r){var t,s,q,p;for(q in r){if(a[q]){a[q]=r[q]}}l();g();t=location.hash.substring(1);if(t.indexOf(a.name+"=")===0){s=t.split("=")[1];if(s=="reset"){o.reset();location.hash=""}}if(o.isShowing){setTimeout(function(){o.hide(null)},500)}else{c.storage.remove()}o.updateSubtotal()};var l=function(){if(typeof a.events.onRender=="function"){a.events.onRender.call(o)}j();n();f();if(typeof a.events.afterRender=="function"){a.events.afterRender.call(o)}};var j=function(){var r,s,q,p=a.name;q="#"+p+" form { position:fixed; float:none; top:-250px; "+a.displayEdge+":"+a.edgeDistance+"; width:265px; margin:0; padding:50px 10px 0; min-height:170px; background:#fff url("+a.assetURL+"images/minicart_sprite.png) no-repeat -125px -60px; border:1px solid #999; border-top:0; font:13px/normal arial, helvetica; color:#333; -moz-border-radius:0 0 8px 8px; -webkit-border-radius:0 0 8px 8px; border-radius:0 0 8px 8px; -moz-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.1); -webkit-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.1); box-shadow:1px 1px 1px rgba(0, 0, 0, 0.1); } ";q+="#"+p+" ul { position:relative; overflow-x:hidden; overflow-y:auto; height:130px; margin:0 0 7px; padding:0; list-style-type:none; border-top:1px solid #ccc; border-bottom:1px solid #ccc; } ";q+="#"+p+" li { position:relative; margin:-1px 0 0; padding:6px 5px 6px 0; border-top:1px solid #f2f2f2; } ";q+="#"+p+" li a { color:#333; text-decoration:none; } ";q+="#"+p+" li a span { color:#999; font-size:10px; } ";q+="#"+p+" li .quantity { position:absolute; top:.5em; right:78px; width:22px; padding:1px; border:1px solid #83a8cc; text-align:right; } ";q+="#"+p+" li .price { position:absolute; top:.5em; right:4px; } ";q+="#"+p+" li .remove { position:absolute; top:9px; right:60px; width:14px; height:14px; background:url("+a.assetURL+"images/minicart_sprite.png) no-repeat -134px -4px; border:0; cursor:pointer; } ";q+="#"+p+" p { margin:0; padding:0 0 0 20px; background:url("+a.assetURL+"images/minicart_sprite.png) no-repeat; font-size:13px; font-weight:bold; } ";q+="#"+p+" p:hover { cursor:pointer; } ";q+="#"+p+" p input { float:right; margin:4px 0 0; padding:1px 4px; text-decoration:none; font-weight:normal; color:#333; background:#ffa822 url("+a.assetURL+"images/minicart_sprite.png) repeat-x left center; border:1px solid #d5bd98; border-right-color:#935e0d; border-bottom-color:#935e0d; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; } ";q+="#"+p+" p .shipping { display:block; font-size:10px; font-weight:normal; color:#999; } ";s=document.createElement("style");s.type="text/css";if(s.styleSheet){s.styleSheet.cssText=q}else{s.appendChild(document.createTextNode(q))}r=document.getElementsByTagName("head")[0];r.appendChild(s)};var n=function(){var s,r,t;o.UI.wrapper=document.createElement("div");o.UI.wrapper.id=a.name;s=document.createElement("input");s.type="hidden";s.name="cmd";s.value="_cart";r=s.cloneNode(false);r.name="upload";r.value="1";t=s.cloneNode(false);t.name="bn";t.value="MiniCart_AddToCart_WPS_US";o.UI.cart=document.createElement("form");o.UI.cart.method="post";o.UI.cart.action=a.paypalURL;o.UI.cart.appendChild(s);o.UI.cart.appendChild(r);o.UI.cart.appendChild(t);o.UI.wrapper.appendChild(o.UI.cart);o.UI.itemList=document.createElement("ul");o.UI.cart.appendChild(o.UI.itemList);o.UI.summary=document.createElement("p");o.UI.cart.appendChild(o.UI.summary);o.UI.button=document.createElement("input");o.UI.button.type="submit";o.UI.button.value=a.strings.button||"Checkout";o.UI.summary.appendChild(o.UI.button);o.UI.subtotal=document.createElement("span");o.UI.subtotal.innerHTML=a.strings.subtotal||"Subtotal: ";o.UI.subtotalAmount=document.createElement("span");o.UI.subtotalAmount.innerHTML="0.00";o.UI.subtotal.appendChild(o.UI.subtotalAmount);o.UI.summary.appendChild(o.UI.subtotal);o.UI.shipping=document.createElement("span");o.UI.shipping.className="shipping";o.UI.shipping.innerHTML=a.strings.shipping||"does not include shipping & tax";o.UI.summary.appendChild(o.UI.shipping);if(window.attachEvent&&!window.opera){var p=navigator.userAgent.match(/MSIE\s([^;]*)/);if(p){p=parseFloat(p[1]);if(p<7||(p>=7&&document.compatMode==="BackCompat")){o.UI.cart.style.position="absolute";o.UI.wrapper.style[a.displayEdge]="0";o.UI.wrapper.style.setExpression("top","x = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop")}}}var q=(typeof a.parent==="string")?document.getElementById(a.parent):a.parent;q.appendChild(o.UI.wrapper)};var f=function(){var p,r,q;p=document.getElementsByTagName("form");for(q=0;q<p.length;q++){r=p[q];if(r.cmd&&(r.cmd.value==="_cart"||r.cmd.value==="_xclick")){if(r.add){c.event.add(r,"submit",function(t){t.preventDefault(t);o.addToCart(t.target.elements)})}else{if(r.display){c.event.add(r,"submit",function(t){t.preventDefault();o.show(t)})}}}}c.event.add(document,"click",function(u){if(o.isShowing){var t=u.target;if(!(/input|button|select|option/i.test(t.tagName))){while(t.nodeType===1){if(t===o.UI.cart){return}t=t.parentNode}o.hide(null)}}});c.event.add(o.UI.cart,"submit",function(t){h(t)});c.event.add(o.UI.summary,"click",function(u){var t=u.target;if(t!==o.UI.button){o.toggle(u)}});function s(){o.products=[];o.UI.itemList.innerHTML="";o.UI.subtotalAmount.innerHTML="";g();o.updateSubtotal()}if(window.attachEvent&&!window.opera){c.event.add(document,"storage",function(t){setTimeout(s,100)})}else{c.event.add(window,"storage",function(t){if((t.key&&t.key==a.name)||!t.key){s()}})}};var g=function(){var q,p;if((q=c.storage.load())){p=q.length;for(i=0;i<p;i++){if(k(q[i])){o.isShowing=true}}}};var e=function(z){var v={},r={},x=/^(?:item_number|item_name|amount|quantity|on|os|option_|tax|weight|handling|shipping|discount)/,w=/^(?:business|currency_code|lc|paymentaction|no_shipping|cn|no_note|invoice|handling_cart|weight_cart|weight_unit|tax_cart|page_style|image_url|cpp_|cs|cbt|return|cancel_return|notify_url|rm|custom|charset)/,q=z.length,t,y,p,s,u;for(u=0;u<q;u++){t=z[u];if(x.test(t.name)){y=c.util.getInputValue(t);if(y){v[t.name]=y}}else{if(w.test(t.name)){y=c.util.getInputValue(t);if(y){r[t.name]=y}}}}for(u=0,q=o.products.length;u<q;u++){p=o.products[u].details;if((!v.item_name||v.item_name===p.item_name)&&(!v.item_number||v.item_number===p.item_number)&&(!v.os0||v.os0===p.os0)&&(!v.os1||v.os1===p.os1)){v.offset=p.offset;break}}v.href=v.href||window.location.href;v.quantity=v.quantity||1;v.amount=v.amount||0;if(r["return"]&&r["return"].indexOf("#")==-1){r["return"]+="#"+a.name+"=reset"}s=(v.option_index)?v.option_index:0;while(z["os"+s]){u=0;while(typeof v["option_select"+u]!="undefined"){if(v["option_select"+u]==v["os"+s]){v.amount=v.amount+parseFloat(v["option_amount"+u]);break}u++}s++}return{details:v,settings:r}};var k=function(s){var p,r=new b(s,o.UI.itemList.children.length+1),t=s.details.offset;o.products[t]=r;for(key in s.settings){if(o.UI.cart.elements[key]){if(o.UI.cart.elements[key].value){o.UI.cart.elements[key].value=s.settings[key]}else{o.UI.cart.elements[key]=s.settings[key]}}else{hiddenInput=document.createElement("input");hiddenInput.type="hidden";hiddenInput.name=key;hiddenInput.value=s.settings[key];o.UI.cart.appendChild(hiddenInput)}}if(r.isPlaceholder){return false}else{c.event.add(r.removeNode,"click",function(){d(r,t)});var q=r.quantityNode.value;c.event.add(r.quantityNode,"keyup",function(){var u=this;p=setTimeout(function(){var v=parseInt(u.value,10);if(!isNaN(v)&&v!=q){q=v;r.setQuantity(v);if(!r.getQuantity()){d(r,t)}o.updateSubtotal();c.storage.save(o.products)}},250)});o.UI.itemList.appendChild(r.liNode);c.util.animate(r.liNode,"opacity",{from:0,to:1});return true}};var d=function(p,q){if(typeof a.events.onRemoveFromCart=="function"){a.events.onRemoveFromCart.call(o,p)}p.setQuantity(0);p.quantityNode.style.display="none";c.util.animate(p.liNode,"opacity",{from:1,to:0},function(){c.util.animate(p.liNode,"height",{from:18,to:0},function(){try{p.liNode.parentNode.removeChild(p.liNode)}catch(y){}var z=o.UI.cart.getElementsByTagName("li"),r=z.length,x,u,A,w,v,t,s=1;for(v=0;v<r;v++){x=z[v].getElementsByTagName("input");u=x.length;for(t=0;t<u;t++){A=x[t];w=/(.+)_[0-9]+$/.exec(A.name);if(w&&w[1]){A.name=w[1]+"_"+s}}s++}if(typeof a.events.afterRemoveFromCart=="function"){a.events.afterRemoveFromCart.call(o,p)}})});o.products[q].details.item_name="";o.products[q].details.item_number="";o.updateSubtotal();c.storage.save(o.products)};var h=function(p){if(typeof a.events.onCheckout=="function"){a.events.onCheckout.call(o,p)}};o.calculateSubtotal=function(){var q,s,t,r,u,p=0;for(q=0,s=o.products.length;q<s;q++){if((t=o.products[q].details)){if(t.amount){r=t.amount;u=(t.discount_amount)?t.discount_amount:0;p+=parseFloat((r-u)*t.quantity)}}}return p.toFixed(2)};o.updateSubtotal=function(){var r,u,q=o.calculateSubtotal(),v=1,t,p,s;r="";u="";if(o.UI.cart.elements.currency_code){r=o.UI.cart.elements.currency_code.value||o.UI.cart.elements.currency_code}else{for(s=0,p=o.UI.cart.elements.length;s<p;s++){if(o.UI.cart.elements[s].name=="currency_code"){r=o.UI.cart.elements[s].value||o.UI.cart.elements[s];break}}}o.UI.subtotalAmount.innerHTML=c.util.formatCurrency(q,r);(function(){t=v.toString(16);v++;o.UI.subtotalAmount.style.backgroundColor="#ff"+t;if(v>=15){o.UI.subtotalAmount.style.backgroundColor="transparent";if(q=="0.00"){o.hide(null,true)}return}setTimeout(arguments.callee,30)}())};o.addToCart=function(p){var r=false,q;if(typeof a.events.onAddToCart==="function"){if(a.events.onAddToCart.call(o,p)===false){return}}p=e(p);q=p.details.offset;if(typeof q!="undefined"&&o.products[q]){o.products[q].details.quantity+=parseInt(p.details.quantity||1,10);o.products[q].setPrice(p.details.amount*o.products[q].details.quantity);o.products[q].setQuantity(o.products[q].details.quantity);r=true}else{p.details.offset=o.products.length;r=k(p)}o.updateSubtotal();o.show(null);c.storage.save(o.products);if(typeof a.events.afterAddToCart==="function"){a.events.afterAddToCart.call(o,p)}return r};o.show=function(p){var r=parseInt(o.UI.cart.offsetTop,10),q=0;if(p&&p.preventDefault){p.preventDefault()}if(typeof a.events.onShow=="function"){a.events.onShow.call(o,p)}c.util.animate(o.UI.cart,"top",{from:r,to:q},function(){if(typeof a.events.afterShow=="function"){a.events.afterShow.call(o,p)}});o.UI.summary.style.backgroundPosition="-195px 2px";o.isShowing=true};o.hide=function(s,q){var p=(o.UI.cart.offsetHeight)?o.UI.cart.offsetHeight:document.defaultView.getComputedStyle(o.UI.cart,"").getPropertyValue("height"),r=(o.UI.summary.offsetHeight)?o.UI.summary.offsetHeight:document.defaultView.getComputedStyle(o.UI.summary,"").getPropertyValue("height"),u=parseInt(o.UI.cart.offsetTop,10),t;if(q||!a.peekEnabled){t=p*-1}else{t=(p-r-8)*-1}if(s&&s.preventDefault){s.preventDefault()}if(typeof a.events.onHide=="function"){a.events.onHide.call(o,s)}c.util.animate(o.UI.cart,"top",{from:u,to:t},function(){if(typeof a.events.afterHide=="function"){a.events.afterHide.call(o,s)}});o.UI.summary.style.backgroundPosition="-195px -32px";o.isShowing=false};o.toggle=function(p){if(o.isShowing){o.hide(p)}else{o.show(p)}};o.reset=function(){if(typeof a.events.onReset==="function"){a.events.onReset.call(o)}o.products=[];if(o.isShowing){o.UI.itemList.innerHTML="";o.UI.subtotalAmount.innerHTML="";o.hide(null,true)}c.storage.remove();if(typeof a.events.afterReset==="function"){a.events.afterReset.call(o)}};return{render:function(p){m(p)},addToCart:function(p){o.addToCart(p)},show:function(p){o.show(p)},hide:function(q,p){o.hide(q,p)},toggle:function(p){o.toggle()},reset:function(){o.reset()}}}());var b=function(e,d){this.details=null;this.settings=null;this.liNode=null;this.nameNode=null;this.metaNode=null;this.priceNode=null;this.quantityNode=null;this.removeNode=null;this.isPlaceholder=false;this._init(e,d)};b.prototype={_init:function(k,e){var d,l,j,h,g,f;this.details=k.details;this.settings=k.settings;this.liNode=document.createElement("li");this.nameNode=document.createElement("a");this.metaNode=document.createElement("span");this.priceNode=document.createElement("span");this.quantityNode=document.createElement("input");this.removeNode=document.createElement("input");if(!this.details.item_name&&!this.details.item_number){this.isPlaceholder=true;return}if(this.details.item_name){l=this.details.item_name;d=(l.length>20)?l.substr(0,20)+"...":l}this.nameNode.innerHTML=d;this.nameNode.title=l;this.nameNode.href=this.details.href;this.nameNode.appendChild(this.metaNode);if(this.details.item_number){this.metaNode.innerHTML="<br>#"+this.details.item_number}f=0;while(typeof this.details["on"+f]!=="undefined"){this.metaNode.innerHTML+="<br>"+this.details["on"+f]+": "+this.details["os"+f];f++}if(this.details.discount_amount){this.metaNode.innerHTML+="<br>";this.metaNode.innerHTML+=a.strings.discount||"Discount: ";this.metaNode.innerHTML+=c.util.formatCurrency(this.details.discount_amount,this.settings.currency_code)}this.details.quantity=parseInt(this.details.quantity,10);this.quantityNode.name="quantity_"+e;this.quantityNode.value=this.details.quantity?this.details.quantity:1;this.quantityNode.className="quantity";this.quantityNode.setAttribute("autocomplete","off");this.removeNode.type="button";this.removeNode.className="remove";j=parseFloat(this.details.amount,10);if(this.details.discount_amount){j-=this.details.discount_amount}this.priceNode.innerHTML=c.util.formatCurrency((j*parseFloat(this.details.quantity,10)).toFixed(2),this.settings.currency_code);this.priceNode.className="price";this.liNode.appendChild(this.nameNode);this.liNode.appendChild(this.quantityNode);this.liNode.appendChild(this.removeNode);this.liNode.appendChild(this.priceNode);for(g in this.details){if(g!=="quantity"){h=document.createElement("input");h.type="hidden";h.name=g+"_"+e;h.value=this.details[g];this.liNode.appendChild(h)}}},setQuantity:function(d){d=parseInt(d,10);this.details.quantity=d;if(this.quantityNode.value!=d){this.quantityNode.value=d}this.setPrice(this.details.amount*d)},getQuantity:function(){return(parseFloat(this.quantityNode.value,10)||1)},setPrice:function(d){d=parseFloat(d,10);this.priceNode.innerHTML=c.util.formatCurrency(parseFloat(d,10).toFixed(2),this.settings.currency_code)},getPrice:function(){return(this.details.amount*this.getQuantity())}};var c={};c.storage=(function(){var d=a.name;if(window.localStorage){return{load:function(){var e=localStorage.getItem(d);if(e){e=JSON.parse(unescape(e))}return e},save:function(j){var h=[],g,e,f;if(j){for(f=0,e=j.length;f<e;f++){g=j[f];h.push({details:g.details,settings:g.settings})}h=escape(JSON.stringify(h));localStorage.setItem(d,h)}},remove:function(){localStorage.removeItem(d)}}}else{return{load:function(){var l,j,h,g=d+"=",k,f;try{j=document.cookie.split(";");for(f=0;f<j.length;f++){h=j[f];while(h.charAt(0)===" "){h=h.substring(1,h.length)}if(h.indexOf(g)===0){k=h.substring(g.length,h.length);l=JSON.parse(unescape(k))}}}catch(m){}return l},save:function(l,k){var f=new Date(),j=[],h,e,g;if(l){for(g=0,e=l.length;g<e;g++){h=l[g];j.push({details:h.details,settings:h.settings})}k=k||30;f.setTime(f.getTime()+k*24*60*60*1000);document.cookie=a.name+"="+escape(JSON.stringify(j))+"; expires="+f.toGMTString()+"; path="+a.cookiePath}},remove:function(){this.save(null,-1)}}}}());c.event={cache:[],add:function(h,g,f,e){e=e||h;var d;if(h.addEventListener){d=function(j){f.call(e,j)};h.addEventListener(g,d,false)}else{if(h.attachEvent){d=function(){var j=window.event;j.target=j.target||j.srcElement;j.preventDefault=function(){j.returnValue=false};f.call(e,j)};h.attachEvent("on"+g,d)}}this.cache.push([h,g,f,d])},remove:function(k,h,g){var f,j,d,e;for(e=0;e<this.cache.length;e++){j=this.cache[e];if(j[0]==k&&j[1]==h&&j[2]==g){f=j[3];if(f){if(k.removeEventListener){k.removeEventListener(h,f,false)}else{if(k.detachEvent){k.detachEvent("on"+h,f)}}delete this.cache[e]}}}}};c.util={animate:function(e,j,d,h){d=d||{};d.from=d.from||0;d.to=d.to||0;d.duration=d.duration||10;d.unit=(/top|bottom|left|right|width|height/.test(j))?"px":"";var f=(d.to-d.from)/20;var g=d.from;(function(){e.style[j]=g+d.unit;g+=f;if((f>0&&g>d.to)||(f<0&&g<d.to)||f===0){e.style[j]=d.to+d.unit;if(typeof h==="function"){h()}return}setTimeout(arguments.callee,d.duration)})()},getInputValue:function(e){var d=e.tagName.toLowerCase();if(d=="select"){return e.options[e.selectedIndex].value}else{if(d=="textarea"){return e.innerHTML}else{if(e.type=="radio"){return(e.checked)?e.value:null}else{if(e.type=="checkbox"){return(e.checked)?e.value:null}else{return e.value}}}}},formatCurrency:function(f,g){var e={AED:{before:"\u062c"},ANG:{before:"\u0192"},ARS:{before:"$"},AUD:{before:"$"},AWG:{before:"\u0192"},BBD:{before:"$"},BGN:{before:"\u043b\u0432"},BMD:{before:"$"},BND:{before:"$"},BRL:{before:"R$"},BSD:{before:"$"},CAD:{before:"$"},CHF:{before:""},CLP:{before:"$"},CNY:{before:"\u00A5"},COP:{before:"$"},CRC:{before:"\u20A1"},CZK:{before:"Kc"},DKK:{before:"kr"},DOP:{before:"$"},EEK:{before:"kr"},EUR:{before:"\u20AC"},GBP:{before:"\u00A3"},GTQ:{before:"Q"},HKD:{before:"$"},HRK:{before:"kn"},HUF:{before:"Ft"},IDR:{before:"Rp"},ILS:{before:"\u20AA"},INR:{before:"Rs."},ISK:{before:"kr"},JMD:{before:"J$"},JPY:{before:"\u00A5"},KRW:{before:"\u20A9"},KYD:{before:"$"},LTL:{before:"Lt"},LVL:{before:"Ls"},MXN:{before:"$"},MYR:{before:"RM"},NOK:{before:"kr"},NZD:{before:"$"},PEN:{before:"S/"},PHP:{before:"Php"},PLN:{before:"z"},QAR:{before:"\ufdfc"},RON:{before:"lei"},RUB:{before:"\u0440\u0443\u0431"},SAR:{before:"\ufdfc"},SEK:{before:"kr"},SGD:{before:"$"},THB:{before:"\u0E3F"},TRY:{before:"TL"},TTD:{before:"TT$"},TWD:{before:"NT$"},UAH:{before:"\u20b4"},USD:{before:"$"},UYU:{before:"$U"},VEF:{before:"Bs"},VND:{before:"\u20ab"},XCD:{before:"$"},ZAR:{before:"R"}};var d=e[g],h="",j="";if(d){if(d.before){h=d.before}if(d.after){h=d.after}}return h+f+j}};if(!this.JSON){JSON={}}(function(){function h(f){return f<10?"0"+f:f}if(typeof Date.prototype.toJSON!=="function"){Date.prototype.toJSON=function(f){return this.getUTCFullYear()+"-"+h(this.getUTCMonth()+1)+"-"+h(this.getUTCDate())+"T"+h(this.getUTCHours())+":"+h(this.getUTCMinutes())+":"+h(this.getUTCSeconds())+"Z"};String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(f){return this.valueOf()}}var g=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,k=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,l,e,n={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},m;function d(f){k.lastIndex=0;return k.test(f)?'"'+f.replace(k,function(o){var p=n[o];return typeof p==="string"?p:"\\u"+("0000"+o.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+f+'"'}function j(u,r){var p,o,w,f,s=l,q,t=r[u];if(t&&typeof t==="object"&&typeof t.toJSON==="function"){t=t.toJSON(u)}if(typeof m==="function"){t=m.call(r,u,t)}switch(typeof t){case"string":return d(t);case"number":return isFinite(t)?String(t):"null";case"boolean":case"null":return String(t);case"object":if(!t){return"null"}l+=e;q=[];if(Object.prototype.toString.apply(t)==="[object Array]"){f=t.length;for(p=0;p<f;p+=1){q[p]=j(p,t)||"null"}w=q.length===0?"[]":l?"[\n"+l+q.join(",\n"+l)+"\n"+s+"]":"["+q.join(",")+"]";l=s;return w}if(m&&typeof m==="object"){f=m.length;for(p=0;p<f;p+=1){o=m[p];if(typeof o==="string"){w=j(o,t);if(w){q.push(d(o)+(l?": ":":")+w)}}}}else{for(o in t){if(Object.hasOwnProperty.call(t,o)){w=j(o,t);if(w){q.push(d(o)+(l?": ":":")+w)}}}}w=q.length===0?"{}":l?"{\n"+l+q.join(",\n"+l)+"\n"+s+"}":"{"+q.join(",")+"}";l=s;return w}}if(typeof JSON.stringify!=="function"){JSON.stringify=function(q,o,p){var f;l="";e="";if(typeof p==="number"){for(f=0;f<p;f+=1){e+=" "}}else{if(typeof p==="string"){e=p}}m=o;if(o&&typeof o!=="function"&&(typeof o!=="object"||typeof o.length!=="number")){throw new Error("JSON.stringify")}return j("",{"":q})}}if(typeof JSON.parse!=="function"){JSON.parse=function(q,f){var p;function o(u,t){var s,r,w=u[t];if(w&&typeof w==="object"){for(s in w){if(Object.hasOwnProperty.call(w,s)){r=o(w,s);if(r!==undefined){w[s]=r}else{delete w[s]}}}}return f.call(u,t,w)}g.lastIndex=0;if(g.test(q)){q=q.replace(g,function(r){return"\\u"+("0000"+r.charCodeAt(0).toString(16)).slice(-4)})}if(/^[\],:{}\s]*$/.test(q.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,""))){p=eval("("+q+")");return typeof f==="function"?o({"":p},""):p}throw new SyntaxError("JSON.parse")}}}())}());
+if (typeof PAYPAL == 'undefined' || !PAYPAL) {
+	var PAYPAL = {};
+}
+
+PAYPAL.apps = PAYPAL.apps || {};
+
+
+(function () {
+
+	/**
+	 * Default configuration
+	 */
+	var config = {			
+		/**
+		 * The parent element the cart should "pin" to
+		 */
+		parent: document.body,
+		
+		/**
+		 * Edge of the window to pin the cart to
+		 */
+		displayEdge: 'right',
+		
+		/**
+		 * Distance from the edge of the window
+		 */
+		edgeDistance: '50px',
+		
+		/**
+		 * HTML target property for the checkout form
+		 */
+		formTarget: null,
+		
+		/**
+		 * The base path of your website to set the cookie to
+		 */		
+		cookiePath: '/',
+		
+		/**
+		 * Strings used for display text
+		 */		
+		strings: {
+			button: '',
+			subtotal: '',
+			discount: '',
+			shipping: '',
+			processing: ''
+		},
+		
+		/**
+		 * Unique ID used on the wrapper element
+		 */		
+		name: 'PPMiniCart',
+		
+		/**
+		 * Boolean to determine if the cart should "peek" when it's hidden with items
+		 */
+		peekEnabled: true,
+
+		/**
+		 * The URL of the PayPal website
+		 */
+		paypalURL: 'https://www.paypal.com/cgi-bin/webscr',		
+		
+		/**
+		 * The base URL to the visual assets
+		 */		
+		assetURL: 'http://www.minicartjs.com/build/',
+		
+		events: {
+			/**
+			 * Custom event fired before the cart is rendered
+			 */
+			onRender: null, 
+					
+			/**
+			 * Custom event fired after the cart is rendered
+			 */
+			afterRender: null,
+			
+			/**
+			 * Custom event fired before the cart is hidden
+			 *
+			 * @param e {event} The triggering event
+			 */
+			onHide: null,
+			
+			/**
+			 * Custom event fired after the cart is hidden
+			 *
+			 * @param e {event} The triggering event
+			 */
+			afterHide: null,
+			
+			/**
+			 * Custom event fired before the cart is shown
+			 *
+			 * @param e {event} The triggering event
+			 */
+			onShow: null,
+			
+			/**
+			 * Custom event fired after the cart is shown
+			 *
+			 * @param e {event} The triggering event
+			 */
+			afterShow: null,
+			
+			/**
+			 * Custom event fired before a product is added to the cart
+			 *
+			 * @param data {object} Product object
+			 */
+			onAddToCart: null,
+			
+			/**
+			 * Custom event fired after a product is added to the cart
+			 *
+			 * @param data {object} Product object
+			 */
+			afterAddToCart: null,
+			
+			/**
+			 * Custom event fired before a product is removed from the cart
+			 *
+			 * @param data {object} Product object
+			 */
+			onRemoveFromCart: null,
+			
+			/**
+			 * Custom event fired after a product is removed from the cart
+			 *
+			 * @param data {object} Product object
+			 */
+			afterRemoveFromCart: null,
+			
+			/**
+			 * Custom event fired before the checkout action takes place
+			 *
+			 * @param e {event} The triggering event
+			 */
+			onCheckout: null,
+			
+			/**
+			 * Custom event fired before the cart is reset
+			 */
+			onReset: null,
+			
+			/**
+			 * Custom event fired after the cart is reset
+			 */
+			afterReset: null
+		}
+	};
+
+
+
+	/**
+	 * Mini Cart application 
+	 */
+	PAYPAL.apps.MiniCart = (function () {
+		
+		var minicart = {},
+			isShowing = false,
+			isRendered = false;
+				
+				
+		/** PRIVATE **/
+		
+		/**
+		 * PayPal form cmd values which are supported
+		 */
+		var SUPPORTED_CMDS = { _cart: true, _xclick: true };
+		
+		
+		/**
+		 * The form origin that is passed to PayPal
+		 */
+		var BN_VALUE = 'MiniCart_AddToCart_WPS_US';
+		
+		
+		/**
+		 * Regex filter for cart settings, which appear only once in a cart
+		 */
+		var SETTING_FILTER = /^(?:business|currency_code|lc|paymentaction|no_shipping|cn|no_note|invoice|handling_cart|weight_cart|weight_unit|tax_cart|page_style|image_url|cpp_|cs|cbt|return|cancel_return|notify_url|rm|custom|charset)/;
+		
+		
+		/**
+		 * Adds the cart's CSS to the page in a <style> element.
+		 * The CSS lives in this file so that it can leverage properties from the config 
+		 * and doesn't require an additional down. To override the CSS see the FAQ.
+		 */
+		var _addCSS = function () {
+			var name = config.name,
+				css = [],
+				style, head;
+
+			css.push('#' + name + ' form { position:fixed; float:none; top:-250px; ' + config.displayEdge + ':' + config.edgeDistance + '; width:265px; margin:0; padding:50px 10px 0; min-height:170px; background:#fff url(' + config.assetURL + 'images/minicart_sprite.png) no-repeat -125px -60px; border:1px solid #999; border-top:0; font:13px/normal arial, helvetica; color:#333; text-align:left; -moz-border-radius:0 0 8px 8px; -webkit-border-radius:0 0 8px 8px; border-radius:0 0 8px 8px; -moz-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.1); -webkit-box-shadow:1px 1px 1px rgba(0, 0, 0, 0.1); box-shadow:1px 1px 1px rgba(0, 0, 0, 0.1); } ');
+			css.push('#' + name + ' ul { position:relative; overflow-x:hidden; overflow-y:auto; height:130px; margin:0 0 7px; padding:0; list-style-type:none; border-top:1px solid #ccc; border-bottom:1px solid #ccc; } ');
+			css.push('#' + name + ' li { position:relative; margin:-1px 0 0; padding:6px 5px 6px 0; border-top:1px solid #f2f2f2; } ');
+			css.push('#' + name + ' li a { display: block; width: 155px; color:#333; text-decoration:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } ');
+			css.push('#' + name + ' li a span { color:#999; font-size:10px; } ');
+			css.push('#' + name + ' li .quantity { position:absolute; top:.5em; right:78px; width:22px; padding:1px; border:1px solid #83a8cc; text-align:right; } ');
+			css.push('#' + name + ' li .price { position:absolute; top:.5em; right:4px; } ');
+			css.push('#' + name + ' li .remove { position:absolute; top:9px; right:60px; width:14px; height:14px; background:url(' + config.assetURL + 'images/minicart_sprite.png) no-repeat -134px -4px; border:0; cursor:pointer; } ');
+			css.push('#' + name + ' p { margin:0; padding:0 0 0 20px; background:url(' + config.assetURL + 'images/minicart_sprite.png) no-repeat; font-size:13px; font-weight:bold; } ');
+			css.push('#' + name + ' p:hover { cursor:pointer; } ');
+			css.push('#' + name + ' p input { float:right; margin:4px 0 0; padding:1px 4px; text-decoration:none; font-weight:normal; color:#333; background:#ffa822 url(' + config.assetURL + 'images/minicart_sprite.png) repeat-x left center; border:1px solid #d5bd98; border-right-color:#935e0d; border-bottom-color:#935e0d; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; } ');
+			css.push('#' + name + ' p .shipping { display:block; font-size:10px; font-weight:normal; color:#999; } ');
+
+			style = document.createElement('style');
+			style.type = 'text/css';
+			
+			if (style.styleSheet) {
+				style.styleSheet.cssText = css.join('');
+			} else {
+				style.appendChild(document.createTextNode(css.join('')));
+			}
+
+			head = document.getElementsByTagName('head')[0];
+			head.appendChild(style);
+		};
+		
+		
+		/**
+		 * Builds the DOM elements required by the cart
+		 */
+		var _buildDOM = function () {
+			var UI = minicart.UI,
+				cmd, type, bn, parent, version;
+			
+			UI.wrapper = document.createElement('div');
+			UI.wrapper.id = config.name;
+			
+			cmd = document.createElement('input');
+			cmd.type = 'hidden';
+			cmd.name = 'cmd';
+			cmd.value = '_cart';
+			
+			type = cmd.cloneNode(false);
+			type.name = 'upload';
+			type.value = '1';
+			
+			bn = cmd.cloneNode(false);
+			bn.name = 'bn';
+			bn.value = BN_VALUE;
+			
+			UI.cart = document.createElement('form');
+			UI.cart.method = 'post';
+			UI.cart.action = config.paypalURL;
+			
+			if (config.formTarget) {
+				UI.cart.target = config.formTarget;
+			}
+			
+			UI.cart.appendChild(cmd);
+			UI.cart.appendChild(type);
+			UI.cart.appendChild(bn);
+			UI.wrapper.appendChild(UI.cart);
+			
+			UI.itemList = document.createElement('ul');
+			UI.cart.appendChild(UI.itemList);
+			
+			UI.summary = document.createElement('p');
+			UI.cart.appendChild(UI.summary);
+			
+			UI.button = document.createElement('input');
+			UI.button.type = 'submit';
+			UI.button.value = config.strings.button || 'Checkout';
+			UI.summary.appendChild(UI.button);
+			
+			UI.subtotal = document.createElement('span');
+			UI.subtotal.innerHTML = config.strings.subtotal || 'Subtotal: ';
+	
+			UI.subtotalAmount = document.createElement('span');
+			UI.subtotalAmount.innerHTML = '0.00';
+			
+			UI.subtotal.appendChild(UI.subtotalAmount);
+			UI.summary.appendChild(UI.subtotal);
+			
+			UI.shipping = document.createElement('span');
+			UI.shipping.className = 'shipping';
+			UI.shipping.innerHTML = config.strings.shipping || 'does not include shipping &amp; tax';
+			UI.summary.appendChild(UI.shipping);
+			
+			// Workaround: IE 6 and IE 7/8 in quirks mode do not support position:fixed in CSS
+			if (window.attachEvent && !window.opera) {
+				version = navigator.userAgent.match(/MSIE\s([^;]*)/);
+				
+				if (version) {
+					version = parseFloat(version[1]);
+				
+					if (version < 7 || (version >= 7 && document.compatMode === 'BackCompat')) {
+						UI.cart.style.position = 'absolute';
+						UI.wrapper.style[config.displayEdge] = '0';
+						UI.wrapper.style.setExpression('top', 'x = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop');
+					}
+				}
+			}
+			
+			parent = (typeof config.parent === 'string') ? document.getElementById(config.parent) : config.parent;		
+			parent.appendChild(UI.wrapper);
+		};
+		
+		
+		/**
+		 * Attaches the cart events to it's DOM elements
+		 */
+		var _bindEvents =function () {
+			var ui = minicart.UI,
+				forms, form, i;
+			
+			// Look for all "Cart" and "Buy Now" forms on the page and attach events
+			forms = document.getElementsByTagName('form');
+
+			for (i = 0; i < forms.length; i++) {
+				form = forms[i];
+				
+				if (form.cmd && SUPPORTED_CMDS[form.cmd.value]) {
+					minicart.bindForm(form);	
+				}
+			}
+			
+			// Hide the Mini Cart for all non-cart related clicks
+			$.event.add(document, 'click', function (e) {
+				if (isShowing) {
+					var target = e.target,
+						cartEl = ui.cart;
+
+					if (!(/input|button|select|option/i.test(target.tagName))) {
+						while (target.nodeType === 1) {
+							if (target === cartEl) {
+								return;
+							}
+
+							target = target.parentNode;
+						}
+						
+						minicart.hide(null);
+					}
+				}
+			});
+			
+			// Run the checkout code when submitting the form
+			$.event.add(ui.cart, 'submit', function (e) {
+				_checkout(e);
+			});
+			
+			// Show the cart when clicking on the summary
+			$.event.add(ui.summary, 'click', function (e) {
+				var target = e.target;
+				
+				if (target !== ui.button) {
+					minicart.toggle(e);
+				}
+			}); 
+
+			// Update other windows when HTML5 localStorage is updated
+			if (window.attachEvent && !window.opera) {
+				$.event.add(document, 'storage', function (e) {
+					// IE needs a delay in order to properly see the change
+					setTimeout(_redrawCartItems, 100);
+				});			
+			} else {
+				$.event.add(window, 'storage', function (e) {
+					// Safari, Chrome, and Opera can filter on updated storage key	
+					// Firefox can't so it uses a brute force approach
+					if ((e.key && e.key == config.name) || !e.key) {
+						_redrawCartItems();
+					}
+				});
+			}
+		};
+
+
+		/**
+		 * Parses the userConfig (if applicable) and overwrites the default values
+		 */
+		var _parseUserConfig = function (userConfig) {
+			var key;
+			
+			// TODO: This should recursively merge the config values
+			for (key in userConfig) {
+				if (typeof config[key] !== undefined) {
+					config[key] = userConfig[key];
+				}
+			}
+		};
+
+
+		/**
+		 * Loads the stored data and builds the cart
+		 */
+		var _parseStorage = function () {
+			var data, length, i;
+			
+			if ((data = $.storage.load())) {
+				length = data.length;
+				
+				for (i = 0; i < length; i++) {
+					if (_renderProduct(data[i])) {
+						isShowing = true;
+					}
+				}
+			}
+		};
+
+		
+		/**
+		 * Data parser used for forms
+		 *
+		 * @param form {HTMLElement} An HTML form
+		 * @return {object} 
+		 */		
+		var _parseForm = function (form) {
+			var raw = form.elements,
+				data = {},
+				pair, value, length, i, len;
+			
+			for (i = 0, len = raw.length; i < len; i++) {
+				pair = raw[i];
+				
+				if ((value = $.util.getInputValue(pair))) {
+					data[pair.name] = value;
+				}
+			}
+			
+			return data;
+		};
+		
+				
+		/**
+		 * Massage's a object's data in preparation for adding it to the user's cart
+		 *
+		 * @param data {object} An object of WPS xclick style data to add to the cart. The format is { product: '', settings: '' }.
+		 * @return {object}
+		 */
+		var _parseData = function (data) {
+			var product = {},
+				settings = {},
+				existing, option_index, key, len, match, i, j;
+			
+			// Parse the data into a two categories: product and settings
+			for (key in data) {
+				if (SETTING_FILTER.test(key)) {
+					settings[key] = data[key];
+				} else {
+					product[key] = data[key];
+				}
+			}
+			
+			// Check the products to see if this variation already exists
+			// If it does then reuse the same object
+			for (i = 0, len = minicart.products.length; i < len; i++) {
+				existing = minicart.products[i].product;
+				
+				// Do the product name and number match
+				if (product.item_name === existing.item_name && product.item_number === existing.item_number) {
+					// Products are a match so far; Now do all of the products options match?
+					match = true;
+					j = 0;
+					
+					while (existing['os' + j]) {
+						if (product['os' + j] !== existing['os' + j]) {
+							match = false;
+							break;
+						}
+						
+						j++;
+					}
+					
+					if (match) {
+						product.offset = existing.offset;
+						break;
+					}
+				}
+			}
+
+			// Normalize the values
+			product.href = product.href || window.location.href;
+			product.quantity = product.quantity || 1;
+			product.amount = product.amount || 0;
+			
+			// Add Mini Cart specific settings
+			if (settings['return'] && settings['return'].indexOf('#') == -1) {
+				settings['return'] += '#' + config.name + '=reset';
+			}
+			
+			// Add option amounts to the total amount
+			option_index = (product.option_index) ? product.option_index : 0;
+
+			while (product['os' + option_index]) {
+				i = 0;
+				
+				while (typeof product['option_select' + i] != 'undefined') {
+					if (product['option_select' + i] == product['os' + option_index]) {
+						product.amount = product.amount + parseFloat(product['option_amount' + i]);
+						break;
+					}
+					
+					i++;
+				}
+				
+				option_index++;
+			}
+			
+			return {
+				product: product,
+				settings: settings
+			};
+		};
+		
+
+		/**
+		 * Resets the card and renders the products
+		 */
+		var _redrawCartItems = function () {
+			minicart.products = [];
+			minicart.UI.itemList.innerHTML = '';
+			minicart.UI.subtotalAmount.innerHTML = '';
+	
+			_parseStorage();
+			minicart.updateSubtotal();
+		};
+		
+		
+		/**
+		 * Renders the product in the cart
+		 *
+		 * @param data {object} The data for the product
+		 */
+		var _renderProduct = function (data) {
+			var ui = minicart.UI,
+				cartEl = ui.cart,
+				product = new ProductNode(data, minicart.UI.itemList.children.length + 1),
+				offset = data.product.offset,
+				keyupTimer, hiddenInput, key;
+				
+			minicart.products[offset] = product;
+			
+			// Add hidden settings data to parent form
+			for (key in data.settings) {
+				if (cartEl.elements[key]) {
+					if (cartEl.elements[key].value) {
+						cartEl.elements[key].value = data.settings[key];
+					} else {
+						cartEl.elements[key] = data.settings[key];
+					}
+				} else {
+					hiddenInput = document.createElement('input');
+					hiddenInput.type = 'hidden';
+					hiddenInput.name = key;
+					hiddenInput.value = data.settings[key];
+			
+					cartEl.appendChild(hiddenInput);
+				}
+			}
+			
+			// if the product has no name or number then don't add it
+			if (product.isPlaceholder) {
+				return false;
+			// otherwise, setup the new element
+			} else {
+				// Click event for "x"
+				$.event.add(product.removeInput, 'click', function () {
+					_removeProduct(product, offset);
+				});
+			
+				// Event for changing quantities
+				var currentValue = product.quantityInput.value;
+				
+				$.event.add(product.quantityInput, 'keyup', function () {
+					var that = this;
+					
+					keyupTimer = setTimeout(function () {
+						var value = parseInt(that.value, 10);
+						
+						if (!isNaN(value) && value != currentValue) {
+							currentValue = value;
+							
+							product.setQuantity(value);
+
+							// Delete the product
+							if (!product.getQuantity()) {
+								_removeProduct(product, offset);
+							}
+
+							minicart.updateSubtotal();
+							$.storage.save(minicart.products);
+						}
+					}, 250);
+				});
+			
+				// Add the item and fade it in
+				ui.itemList.insertBefore(product.liNode, ui.itemList.firstChild);
+				$.util.animate(product.liNode, 'opacity', { from: 0, to: 1 });
+				
+				return true;	
+			}
+		};
+		
+
+		/**
+		 * Removes a product from the cart
+		 *
+		 * @param product {ProductNode} The product object
+		 * @param offset {Number} The offset for the product in the cart
+		 */
+		var _removeProduct = function (product, offset) {
+			var events = config.events,
+				onRemoveFromCart = events.onRemoveFromCart,
+				afterRemoveFromCart = events.afterRemoveFromCart;
+				
+			if (typeof onRemoveFromCart == 'function') {
+				if (onRemoveFromCart.call(minicart, product) === false) {
+					return;
+				}
+			}
+			
+			product.setQuantity(0);
+			product.quantityInput.style.display = 'none';
+		
+			$.util.animate(product.liNode, 'opacity', { from: 1, to: 0 }, function () {
+				$.util.animate(product.liNode, 'height', { from: 18, to: 0 }, function () {
+					try {
+						product.liNode.parentNode.removeChild(product.liNode);
+					} catch (e) {
+						// fail
+					}
+					
+					// regenerate the form element indexes
+					var products = minicart.UI.cart.getElementsByTagName('li'),
+						products_len = products.length,
+						inputs,
+						inputs_len,
+						input,
+						matches,
+						i, j, k = 1;
+					
+					for (i = 0 ; i < products_len; i++) {
+						inputs = products[i].getElementsByTagName('input');
+						inputs_len = inputs.length;
+						
+						for (j = 0; j < inputs_len; j++) {
+							input = inputs[j];
+							matches = /(.+)_[0-9]+$/.exec(input.name);
+							
+							if (matches && matches[1]) {
+								input.name = matches[1] + '_' + k;
+							}
+						}
+						
+						k++;
+					}
+					
+					if (typeof afterRemoveFromCart == 'function') {
+						afterRemoveFromCart.call(minicart, product);
+					}
+				});
+			});
+		
+			minicart.products[offset].product.item_name = '';
+			minicart.products[offset].product.item_number = '';
+		
+			minicart.updateSubtotal();
+			$.storage.save(minicart.products);
+		};
+		
+		
+		/**
+		 * Event when the cart form is submitted
+		 *
+		 * @param e {event} The form submission event
+		 */
+		var _checkout = function (e) {
+			var onCheckout = config.events.onCheckout;
+			
+			if (typeof onCheckout == 'function') {
+				if (onCheckout.call(minicart, e) === false) {
+					e.preventDefault();
+					return;
+				}
+			}
+			
+			minicart.UI.button.value = config.strings.processing || 'Processing…';
+		};
+		
+		
+		/** PUBLIC **/
+
+		
+		/**
+		 * Array of ProductNode
+		 */
+		minicart.products = [];
+		
+		
+		/**
+		 * Container for UI elements
+		 */
+		minicart.UI = {};
+		
+
+		/**
+		 * Renders the cart, creates the configuration and loads the data
+		 *
+		 * @param userConfig {object} User settings which override the default configuration
+		 */
+		minicart.render = function (userConfig) {
+			var events = config.events,
+				onRender = events.onRender,
+				afterRender = events.afterRender,
+				hash, cmd;
+				
+			if (typeof onRender == 'function') {
+				if (onRender.call(minicart) === false) {
+					return;
+				}
+			}
+				
+			if (!isRendered) {
+				// Overwrite default configuration with user settings
+				_parseUserConfig(userConfig);
+				
+				// Render the cart UI
+				_addCSS();
+				_buildDOM();
+				_bindEvents();
+				
+				// Check if a transaction was completed
+				// The "return" form param is modified to contain a hash value
+				// with "PPMiniCart=reset". If this is seen then it's assumed
+				// that a transaction was completed and we should reset the cart. 
+				hash = location.hash.substring(1);
+				
+				if (hash.indexOf(config.name + '=') === 0) {
+					cmd = hash.split('=')[1];
+
+					if (cmd == 'reset') {
+						minicart.reset();
+						location.hash = '';
+					}
+				}
+			} 
+			
+			// Process any stored data and render it
+			// TODO: _parseStorage shouldn't be so tightly coupled here and one
+			// should be able to redraw without re-parsing the storage
+			_redrawCartItems();
+					
+			// Trigger the cart to peek on first load if any products were loaded
+			if (!isRendered) {
+				if (isShowing) {
+					setTimeout(function () {
+						minicart.hide(null);
+					}, 500);
+				} else {
+					$.storage.remove();
+				}
+			}
+			
+			isRendered = true;
+			
+			if (typeof afterRender == 'function') {
+				afterRender.call(minicart);
+			}			
+		};
+
+
+		/**
+		 * Binds a form to the Mini Cart
+		 *
+		 * @param form {HTMLElement} The form element to bind
+		 */
+		minicart.bindForm = function (form) {
+			if (form.add) {
+				$.event.add(form, 'submit', function (e) {
+					e.preventDefault(e);
+
+					var data = _parseForm(e.target);
+					minicart.addToCart(data);
+				});
+			} else if (form.display) {
+				$.event.add(form, 'submit', function (e) {
+					e.preventDefault();
+					minicart.show(e);
+				});
+			} else {
+				return false;
+			}
+
+			return true;
+		};
+
+
+		/**
+		 * Adds a product to the cart
+		 *
+		 * @param data {object} Product object. See _parseData for format
+		 * @return {boolean} True if the product was added, false otherwise
+		 */
+		minicart.addToCart = function (data) {
+			var events = config.events,
+				onAddToCart = events.onAddToCart,
+				afterAddToCart = events.afterAddToCart,
+				success = false,
+				productNode, offset;
+			
+			if (typeof onAddToCart === 'function') {
+				if (onAddToCart.call(minicart, data) === false) {
+					return;
+				}
+			}
+			
+			data = _parseData(data);
+			offset = data.product.offset;
+			
+			// Check if the product has already been added; update if so
+			if ((productNode = (typeof offset !== 'undefined' && minicart.products[offset]))) {
+				productNode.product.quantity += parseInt(data.product.quantity || 1, 10);
+				productNode.setPrice(data.product.amount * productNode.product.quantity);
+				productNode.setQuantity(productNode.product.quantity);
+				
+				success = true;
+			// Add a new DOM element for the product
+			} else {	
+				data.product.offset = minicart.products.length; 
+				success = _renderProduct(data); 
+			}	
+				
+			minicart.updateSubtotal();
+			minicart.show(null);
+			
+			$.storage.save(minicart.products);
+		
+			if (typeof afterAddToCart === 'function') {
+				afterAddToCart.call(minicart, data);
+			}
+			
+			return success;
+		};
+
+
+		/**
+		 * Iterates over each product and calculates the subtotal
+		 *
+		 * @return {number} The subtotal
+		 */
+		minicart.calculateSubtotal = function () {
+			var amount = 0,
+				products = minicart.products,
+				product, item, price, discount, len, i;
+				
+			for (i = 0, len = products.length; i < len; i++) {
+				item = products[i];
+				
+				if ((product = item.product)) {
+					if (product.quantity && product.amount) {
+						price = product.amount;
+						discount = item.getDiscount();
+						
+						amount += parseFloat((price * product.quantity) - discount);
+					}
+				}
+			}
+			
+			return amount.toFixed(2);
+		};
+		
+		
+		/**
+		 * Updates the UI with the current subtotal and currency code
+		 */
+		minicart.updateSubtotal = function () {
+			var ui = minicart.UI,
+				cartEl = ui.cart.elements,
+				subtotalEl = ui.subtotalAmount,
+				subtotal = minicart.calculateSubtotal(),
+				level = 1,
+				currency_code, currency_symbol, hex, len, i;
+
+			// Get the currency
+			currency_code = '';
+			currency_symbol = '';
+
+			if (cartEl.currency_code) {
+				currency_code = cartEl.currency_code.value || cartEl.currency_code;
+			} else {			
+				for (i = 0, len = cartEl.length; i < len; i++) {
+					if (cartEl[i].name == 'currency_code') {
+						currency_code = cartEl[i].value || cartEl[i];
+						break;
+					}
+				}
+			}
+
+			// Update the UI		
+			subtotalEl.innerHTML = $.util.formatCurrency(subtotal, currency_code); 
+		
+			// Yellow fade on update
+			(function () {
+				hex = level.toString(16);
+				level++;
+				
+				subtotalEl.style.backgroundColor = '#ff' + hex;
+
+				if (level >= 15) {
+					subtotalEl.style.backgroundColor = 'transparent';
+					
+					// hide the cart if there's no total
+					if (subtotal == '0.00') {
+						minicart.hide(null, true);
+					}
+					
+					return;
+				}
+
+				setTimeout(arguments.callee, 30);
+			})();
+		};
+				
+
+		/**
+		 * Shows the cart
+		 *
+		 * @param e {event} The triggering event
+		 */
+		minicart.show = function (e) {
+			var from = parseInt(minicart.UI.cart.offsetTop, 10),
+				to = 0,
+				events = config.events,
+				onShow = events.onShow,
+				afterShow = events.afterShow;
+				
+			if (e && e.preventDefault) { e.preventDefault(); }
+			
+			if (typeof onShow == 'function') {
+				if (onShow.call(minicart, e) === false) {
+					return;
+				}
+			}
+					
+			$.util.animate(minicart.UI.cart, 'top', { from: from, to: to }, function () {
+				if (typeof afterShow == 'function') {
+					afterShow.call(minicart, e);
+				}
+			});
+			
+			minicart.UI.summary.style.backgroundPosition = '-195px 2px';
+			isShowing = true;
+		};
+		
+		
+		/**
+		 * Hides the cart off the screen
+		 *
+		 * @param e {event} The triggering event
+		 * @param fully {boolean} Should the cart be fully hidden? Optional. Defaults to false.
+		 */
+		minicart.hide = function (e, fully) {
+			var ui = minicart.UI,
+				cartEl = ui.cart,
+				summaryEl = ui.summary,
+				cartHeight = (cartEl.offsetHeight) ? cartEl.offsetHeight : document.defaultView.getComputedStyle(cartEl, '').getPropertyValue('height'),
+				summaryHeight = (summaryEl.offsetHeight) ? summaryEl.offsetHeight : document.defaultView.getComputedStyle(summaryEl, '').getPropertyValue('height'),
+				from = parseInt(cartEl.offsetTop, 10),
+				events = config.events,
+				onHide = events.onHide,
+				afterHide = events.afterHide,
+				to;
+
+			// make the cart fully hidden
+			if (fully || minicart.products.length === 0 || !config.peekEnabled) {
+				to = cartHeight * -1;
+			// otherwise only show a little teaser portion of it
+			} else {
+				to = (cartHeight - summaryHeight - 8) * -1;
+			}
+
+			if (e && e.preventDefault) { e.preventDefault(); }
+			
+			if (typeof onHide == 'function') {
+				if (onHide.call(minicart, e) === false) {
+					return;
+				}
+			}
+			
+			$.util.animate(cartEl, 'top', { from: from, to: to }, function () {
+				if (typeof afterHide == 'function') {
+					afterHide.call(minicart, e);
+				}	
+			});
+			
+			summaryEl.style.backgroundPosition = '-195px -32px';
+			isShowing = false;
+		};
+		
+
+		/**
+		 * Toggles the display of the cart
+		 *
+		 * @param e {event} The triggering event
+		 */
+		minicart.toggle = function (e) {
+			if (isShowing) {
+				minicart.hide(e);
+			} else {
+				minicart.show(e);
+			}
+		};
+				
+	
+		/**
+		 * Resets the cart to it's initial state
+		 */
+		minicart.reset = function () {	
+			var ui = minicart.UI,
+				events = config.events,
+				onReset = events.onReset,
+				afterReset = events.afterReset;
+				
+			if (typeof onReset === 'function') {
+				if (onReset.call(minicart) === false) {
+					return;
+				}
+			}
+			
+			minicart.products = [];
+
+			if (isShowing) {
+				ui.itemList.innerHTML = '';
+				ui.subtotalAmount.innerHTML = '';
+				minicart.hide(null, true);
+			}
+	
+			$.storage.remove();
+		
+			if (typeof afterReset === 'function') {
+				afterReset.call(minicart);
+			}
+		};
+		
+
+		// Expose the object as public methods
+		return minicart;
+	})();
+
+	
+	
+	/**
+	 * An HTMLElement which displays each product
+	 *
+	 * @param data {object} The data for the product
+	 * @param position {number} The product number
+	 */
+	var ProductNode = function (data, position) {
+		this._view(data, position);
+	};
+	
+	
+	ProductNode.prototype = {		
+		/**
+		 * Creates the DOM nodes and adds the product content
+		 *
+		 * @param data {object} The data for the product
+		 * @param position {number} The product number
+		 */
+		_view: function (data, position) {
+			var name, price, quantity, discount, discountNum, options, hiddenInput, key;
+
+			this.product = data.product;
+			this.settings = data.settings;
+			
+			this.liNode = document.createElement('li');
+			this.nameNode = document.createElement('a');
+			this.metaNode = document.createElement('span');
+			this.discountNode = document.createElement('span');
+			this.discountInput = document.createElement('input');
+			this.priceNode = document.createElement('span');
+			this.quantityInput = document.createElement('input');
+			this.removeInput = document.createElement('input');
+			
+			// Don't add blank products
+			if (!this.product || (!this.product.item_name && !this.product.item_number)) { 
+				this.isPlaceholder = true;
+				return;
+			}
+
+			// Name
+			if (this.product.item_name) { 
+				name = this.product.item_name; 
+			}
+			
+			this.nameNode.innerHTML = name;
+			this.nameNode.title = name;
+			this.nameNode.href = this.product.href;
+			this.nameNode.appendChild(this.metaNode);	
+			
+			// Meta info
+			if (this.product.item_number) { 
+				this.metaNode.innerHTML = '<br />#' + this.product.item_number;
+			}
+	
+			// Options
+			options = this.getOptions();
+			
+			for (key in options) {
+				this.metaNode.innerHTML += '<br />' + key + ': ' + options[key];
+			}
+
+			// Discount
+			discount = this.getDiscount();
+			
+			this.discountInput.type = 'hidden';
+			this.discountInput.name = 'discount_amount_' + position;
+			this.discountInput.value = discount;
+			
+			this.metaNode.appendChild(this.discountNode);
+			
+			// Price
+			price = this.getPrice();
+			this.priceNode.className = 'price';
+			
+			// Quantity
+			quantity = this.getQuantity();
+			
+			this.quantityInput.name = 'quantity_' + position;
+			this.quantityInput.className = 'quantity';
+			this.quantityInput.setAttribute('autocomplete', 'off');
+			
+			this.setQuantity(quantity);
+			
+			// Remove button
+			this.removeInput.type = 'button';
+			this.removeInput.className = 'remove';
+			
+			// Build out the DOM
+			this.liNode.appendChild(this.nameNode);
+			this.liNode.appendChild(this.quantityInput);
+			this.liNode.appendChild(this.discountInput);
+			this.liNode.appendChild(this.removeInput);
+			this.liNode.appendChild(this.priceNode);
+			
+			// Add in hidden product data
+			for (key in this.product) {
+				if (key !== 'quantity' && key.indexOf('discount_') === -1) {
+					hiddenInput = document.createElement('input');
+					hiddenInput.type = 'hidden';
+					hiddenInput.name = key + '_' + position;
+					hiddenInput.value = this.product[key];
+				
+					this.liNode.appendChild(hiddenInput);
+				}
+			}
+		},
+		
+		
+		/**
+		 * Calculates the discount for a product
+		 *
+		 * @return {Object} An object with the discount amount or percentage
+		 */
+		getDiscount: function () {
+			var data = {},
+				discount = 0,
+				discountNum = this.product.discount_num || -1;
+			
+			// Discounts: Amount-based
+			if (this.product.discount_amount) { 
+				// Discount amount for the first item
+				discount = parseFloat(this.product.discount_amount);
+
+				// Discount amount for each additional item
+				if (this.product.discount_amount2) {
+					quantity = this.getQuantity();
+					
+					if (quantity > 1) {
+						discount += Math.max(quantity - 1, discountNum) * parseFloat(this.product.discount_amount2);
+					}
+				} 
+
+			// Discounts: Percentage-based
+			} else if (this.product.discount_rate) { 
+				// Discount amount on the first item
+				discount = this.product.amount * parseFloat(this.product.discount_rate) / 100;
+				
+				// Discount amount for each additional item
+				if (this.product.discount_rate2) {
+					quantity = this.getQuantity();
+					
+					if (quantity > 1) {
+						discount += Math.max(quantity - 1, discountNum) * this.product.amount * parseFloat(this.product.discount_amount2) / 100;
+					}
+				}
+			}
+			
+			return discount && discount.toFixed(2);
+		},
+		
+		
+		/**
+		 * Returns an object of options for the product
+		 *
+		 * @return {Object} 
+		 */
+		getOptions: function () {
+			var options = {},
+				i = 0;
+			
+			while (typeof this.product['on' + i] !== 'undefined') {
+				options[this.product['on' + i]] = this.product['os' + i];
+				i++;
+			}
+			
+			return options;
+		},
+		
+		
+		/**
+		 * Utility function to set the quantity of this product
+		 *
+		 * @param value {number} The new value
+		 */
+		setQuantity: function (value) {
+			var discount;
+			
+			value = parseInt(value, 10);
+			this.product.quantity = value;	
+			
+			if (this.quantityInput.value != value) {
+				this.quantityInput.value = value;
+				
+				if ((discount = this.getDiscount())) {
+					this.discountInput.value = discount;
+					
+					this.discountNode.innerHTML  = '<br />';
+					this.discountNode.innerHTML += config.strings.discount || 'Discount: ';
+					this.discountNode.innerHTML += $.util.formatCurrency(discount, this.settings.currency_code);
+				}
+			}
+			
+			this.setPrice(this.product.amount * value);
+		},
+		
+		
+		/**
+		 * Utility function to get the quantity of this product
+		 *
+		 * @return {number}
+		 */
+		getQuantity: function () {
+			return (typeof this.product.quantity !== undefined) ? this.product.quantity : 1;
+		},
+		
+		
+		/**
+		 * Utility function to set the price of this product
+		 *
+		 * @param value {number} The new value
+		 */
+		setPrice: function (value) {
+			value = parseFloat(value, 10);
+						
+			this.priceNode.innerHTML = $.util.formatCurrency(value.toFixed(2), this.settings.currency_code);
+		},
+		
+		
+		/**
+		 * Utility function to get the price of this product
+		 *
+		 * @return {number} 
+		 */
+		getPrice: function () {
+			return (this.product.amount * this.getQuantity()).toFixed(2);
+		}
+	};
+	
+	
+	
+	/** UTILITY **/
+	
+	var $ = {};
+	
+	$.storage = (function () {
+		var name = config.name;
+		
+		// Use HTML5 client side storage
+		if (window.localStorage) {
+			return {
+
+				/**
+				 * Loads the saved data
+				 * 
+				 * @return {object}
+				 */
+				load: function () {
+					var data = localStorage.getItem(name); 
+					
+					if (data) {
+						data = JSON.parse(decodeURIComponent(data));
+					}
+					
+					return data;
+				},
+				
+				
+				/**
+				 * Saves the data
+				 *
+				 * @param items {object} The list of items to save
+				 */
+				save: function (items) {
+					var data = [],
+						item, len, i;
+					
+					if (items) {
+						for (i = 0, len = items.length; i < len; i++) { 
+							item = items[i];
+							data.push({
+								product: item.product,
+								settings: item.settings
+							});
+						}
+			
+						data = encodeURIComponent(JSON.stringify(data));
+						localStorage.setItem(name, data);
+					}
+				},
+				
+				
+				/**
+				 * Removes the saved data
+				 */
+				remove: function () {
+					localStorage.removeItem(name);	
+				}
+			};
+			
+		// Otherwise use cookie based storage
+		} else {
+			return {
+				
+				/**
+				 * Loads the saved data
+				 * 
+				 * @return {object}
+				 */
+				load: function () {
+					var key = name + '=', 
+						data, cookies, cookie, value, i;
+
+					try {
+						cookies = document.cookie.split(';');
+
+						for (i = 0; i < cookies.length; i++) {
+							cookie = cookies[i];
+
+							while (cookie.charAt(0) === ' ') { 
+								cookie = cookie.substring(1, cookie.length);
+							}
+
+							if (cookie.indexOf(key) === 0) {
+								value = cookie.substring(key.length, cookie.length);
+								data = JSON.parse(decodeURIComponent(value));
+							}
+						}					
+					} catch(e) {}
+
+					return data;	
+				},
+				
+				
+				/**
+				 * Saves the data
+				 *
+				 * @param items {object} The list of items to save
+				 */
+				save: function (items, duration) {
+					var date = new Date(),
+						data = [],
+						item, len, i;
+
+					if (items) {
+						for (i = 0, len = items.length; i < len; i++) {
+							item = items[i];
+							data.push({
+								product: item.product,
+								settings: item.settings
+							});
+						}
+					
+						duration = duration || 30;
+						date.setTime(date.getTime() + duration * 24 * 60 * 60 * 1000);
+
+						document.cookie = config.name + '=' + encodeURIComponent(JSON.stringify(data)) + '; expires=' + date.toGMTString() + '; path=' + config.cookiePath;
+					}
+				},
+
+
+				/**
+				 * Removes the saved data
+				 */
+				remove: function () {
+					this.save(null, -1);
+				}
+			};
+		}
+	})();
+	
+	
+	$.event = (function () {
+		/**
+		 * Events are added here for easy reference
+		 */
+		var cache = [];
+		
+		// Non-IE events
+		if (document.addEventListener) {
+			return {
+				/**
+				 * Add an event to an object and optionally adjust it's scope
+				 *
+				 * @param obj {HTMLElement} The object to attach the event to
+				 * @param type {string} The type of event excluding "on"
+				 * @param fn {function} The function
+				 * @param scope {object} Object to adjust the scope to (optional)
+				 */
+				add: function (obj, type, fn, scope) {
+					scope = scope || obj; 
+					
+					var wrappedFn = function (e) { fn.call(scope, e); };
+						
+					obj.addEventListener(type, wrappedFn, false);
+					cache.push([obj, type, fn, wrappedFn]);
+				},
+
+
+				/**
+				 * Remove an event from an object
+				 *
+				 * @param obj {HTMLElement} The object to remove the event from
+				 * @param type {string} The type of event excluding "on"
+				 * @param fn {function} The function
+				 */
+				remove: function (obj, type, fn) {
+					var wrappedFn, item, len, i;
+
+					for (i = 0; i < cache.length; i++) {
+						item = cache[i];
+
+						if (item[0] == obj && item[1] == type && item[2] == fn) {
+							wrappedFn = item[3];
+
+							if (wrappedFn) {
+								obj.removeEventListener(type, wrappedFn, false);
+								delete cache[i];
+							}
+						}
+					}
+				}				
+			};
+			
+		// IE events
+		} else if (document.attachEvent) {
+			return {
+				/**
+				 * Add an event to an object and optionally adjust it's scope (IE)
+				 *
+				 * @param obj {HTMLElement} The object to attach the event to
+				 * @param type {string} The type of event excluding "on"
+				 * @param fn {function} The function
+				 * @param scope {object} Object to adjust the scope to (optional)
+				 */
+				add: function (obj, type, fn, scope) {
+					scope = scope || obj; 
+					
+					var wrappedFn = function () {
+						var e = window.event;
+						e.target = e.target || e.srcElement;
+
+						e.preventDefault = function () {
+							e.returnValue = false;
+						};
+
+						fn.call(scope, e);
+					};
+
+					obj.attachEvent('on' + type, wrappedFn);
+					cache.push([obj, type, fn, wrappedFn]);
+				},
+
+
+				/**
+				 * Remove an event from an object (IE)
+				 *
+				 * @param obj {HTMLElement} The object to remove the event from
+				 * @param type {string} The type of event excluding "on"
+				 * @param fn {function} The function
+				 */
+				remove: function (obj, type, fn) {
+					var wrappedFn, item, len, i;
+
+					for (i = 0; i < cache.length; i++) {
+						item = cache[i];
+
+						if (item[0] == obj && item[1] == type && item[2] == fn) {
+							wrappedFn = item[3];
+
+							if (wrappedFn) {
+								obj.detachEvent('on' + type, wrappedFn);
+								delete cache[i];
+							}
+						}
+					}
+				}
+			};
+		}
+	})();
+	
+	
+	$.util = {
+		/**
+		 * Animation method for elements
+		 *
+		 * @param el {HTMLElement} The element to animate
+		 * @param prop {string} Name of the property to change
+		 * @param config {object} Properties of the animation
+		 * @param callback {function} Callback function after the animation is complete
+		 */
+		animate: function (el, prop, config, callback) {
+			config = config || {};
+			config.from = config.from || 0;
+			config.to = config.to || 0;
+			config.duration = config.duration || 10;
+			config.unit = (/top|bottom|left|right|width|height/.test(prop)) ? 'px' : '';
+
+			var step = (config.to - config.from) / 20,
+				current = config.from;
+
+			(function () {
+				el.style[prop] = current + config.unit;
+				current += step;
+
+				if ((step > 0 && current > config.to) || (step < 0 && current < config.to) || step === 0) {
+					el.style[prop] = config.to + config.unit;
+
+					if (typeof callback === 'function') {
+						callback();
+					}
+
+					return;
+				}
+
+				setTimeout(arguments.callee, config.duration);
+			})();
+		},
+		
+		
+		/**
+		 * Convenience method to return the value of any type of form input
+		 *
+		 * @param input {HTMLElement} The element who's value is returned
+		 */
+		getInputValue: function (input) {
+			var tag = input.tagName.toLowerCase();
+
+			if (tag == 'select') {
+				return input.options[input.selectedIndex].value;
+			} else if (tag == 'textarea') {
+				return input.innerHTML;
+			} else {
+				if (input.type == 'radio') {
+					return (input.checked) ? input.value : null;
+				} else if (input.type == 'checkbox') {
+					return (input.checked) ? input.value : null;
+				} else {
+					return input.value;
+				}
+			}
+		},
+		
+		
+		/**
+		 * Formats a float into a currency 
+		 *
+		 * @param amount {float} The currency amount
+		 * @param code {string} The three letter currency code
+		 */
+		formatCurrency: function (amount, code) {
+			// TODO: The supported currency patterns need to be refined and
+			// should support values for before, after, decimal, and separator.
+			var currencies = {
+					AED: { before: '\u062c' },
+					ANG: { before: '\u0192' },
+					ARS: { before: '$' },
+					AUD: { before: '$' },
+					AWG: { before: '\u0192' },
+					BBD: { before: '$' },
+					BGN: { before: '\u043b\u0432' },
+					BMD: { before: '$' },
+					BND: { before: '$' },
+					BRL: { before: 'R$' },
+					BSD: { before: '$' },
+					CAD: { before: '$' },
+					CHF: { before: '' },
+					CLP: { before: '$' },
+					CNY: { before: '\u00A5' },
+					COP: { before: '$' },
+					CRC: { before: '\u20A1' },
+					CZK: { before: 'Kc' },
+					DKK: { before: 'kr' },
+					DOP: { before: '$' },
+					EEK: { before: 'kr' },
+					EUR: { before: '\u20AC' },
+					GBP: { before: '\u00A3' },
+					GTQ: { before: 'Q' },
+					HKD: { before: '$' },
+					HRK: { before: 'kn' },
+					HUF: { before: 'Ft' },
+					IDR: { before: 'Rp' },
+					ILS: { before: '\u20AA' },
+					INR: { before: 'Rs.' },
+					ISK: { before: 'kr' },
+					JMD: { before: 'J$' },
+					JPY: { before: '\u00A5' },
+					KRW: { before: '\u20A9' },
+					KYD: { before: '$' },
+					LTL: { before: 'Lt' },
+					LVL: { before: 'Ls' },
+					MXN: { before: '$' },
+					MYR: { before: 'RM' },
+					NOK: { before: 'kr' },	
+					NZD: { before: '$' },
+					PEN: { before: 'S/' },
+					PHP: { before: 'Php' },
+					PLN: { before: 'z' },
+					QAR: { before: '\ufdfc' },
+					RON: { before: 'lei' },
+					RUB: { before: '\u0440\u0443\u0431' },
+					SAR: { before: '\ufdfc' },
+					SEK: { before: 'kr' },
+					SGD: { before: '$' },
+					THB: { before: '\u0E3F' },
+					TRY: { before: 'TL' },
+					TTD: { before: 'TT$' },
+					TWD: { before: 'NT$' },
+					UAH: { before: '\u20b4' },
+					USD: { before: '$' },
+					UYU: { before: '$U' },
+					VEF: { before: 'Bs' },
+					VND: { before: '\u20ab' },
+					XCD: { before: '$' },
+					ZAR: { before: 'R' }			
+				},
+				currency = currencies[code] || {},
+				before = currency.before || '',
+				after = currency.after || '';
+	
+			return before + amount + after;
+		}
+	};
+	
+	
+	/**
+	 * JSON Parser - See http://www.json.org/js.html
+	 */
+	if(!this.JSON){JSON={};}(function(){function f(n){return n<10?"0"+n:n;}if(typeof Date.prototype.toJSON!=="function"){Date.prototype.toJSON=function(key){return this.getUTCFullYear()+"-"+f(this.getUTCMonth()+1)+"-"+f(this.getUTCDate())+"T"+f(this.getUTCHours())+":"+f(this.getUTCMinutes())+":"+f(this.getUTCSeconds())+"Z";};String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(key){return this.valueOf();};}var cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},rep;function quote(string){escapable.lastIndex=0;return escapable.test(string)?'"'+string.replace(escapable,function(a){var c=meta[a];return typeof c==="string"?c:"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4);})+'"':'"'+string+'"';}function str(key,holder){var i,k,v,length,mind=gap,partial,value=holder[key];if(value&&typeof value==="object"&&typeof value.toJSON==="function"){value=value.toJSON(key);}if(typeof rep==="function"){value=rep.call(holder,key,value);}switch(typeof value){case"string":return quote(value);case"number":return isFinite(value)?String(value):"null";case"boolean":case"null":return String(value);case"object":if(!value){return"null";}gap+=indent;partial=[];if(Object.prototype.toString.apply(value)==="[object Array]"){length=value.length;for(i=0;i<length;i+=1){partial[i]=str(i,value)||"null";}v=partial.length===0?"[]":gap?"[\n"+gap+partial.join(",\n"+gap)+"\n"+mind+"]":"["+partial.join(",")+"]";gap=mind;return v;}if(rep&&typeof rep==="object"){length=rep.length;for(i=0;i<length;i+=1){k=rep[i];if(typeof k==="string"){v=str(k,value);if(v){partial.push(quote(k)+(gap?": ":":")+v);}}}}else{for(k in value){if(Object.hasOwnProperty.call(value,k)){v=str(k,value);if(v){partial.push(quote(k)+(gap?": ":":")+v);}}}}v=partial.length===0?"{}":gap?"{\n"+gap+partial.join(",\n"+gap)+"\n"+mind+"}":"{"+partial.join(",")+"}";gap=mind;return v;}}if(typeof JSON.stringify!=="function"){JSON.stringify=function(value,replacer,space){var i;gap="";indent="";if(typeof space==="number"){for(i=0;i<space;i+=1){indent+=" ";}}else{if(typeof space==="string"){indent=space;}}rep=replacer;if(replacer&&typeof replacer!=="function"&&(typeof replacer!=="object"||typeof replacer.length!=="number")){throw new Error("JSON.stringify");}return str("",{"":value});};}if(typeof JSON.parse!=="function"){JSON.parse=function(text,reviver){var j;function walk(holder,key){var k,v,value=holder[key];if(value&&typeof value==="object"){for(k in value){if(Object.hasOwnProperty.call(value,k)){v=walk(value,k);if(v!==undefined){value[k]=v;}else{delete value[k];}}}}return reviver.call(holder,key,value);}cx.lastIndex=0;if(cx.test(text)){text=text.replace(cx,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4);});}if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,""))){j=eval("("+text+")");return typeof reviver==="function"?walk({"":j},""):j;}throw new SyntaxError("JSON.parse");};}}());
+
+})();
